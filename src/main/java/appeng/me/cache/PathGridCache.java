@@ -195,10 +195,10 @@ public class PathGridCache implements IPathingGrid {
 
             final DimensionalCoord dc = startingNode.getGridBlock().getLocation();
             final ControllerValidator cv = new ControllerValidator(dc.x, dc.y, dc.z);
+            cv.setMaxSize(AEConfig.instance.MaxCoreSize);
 
             startingNode.beginVisit(cv);
-
-            if (cv.isValid() && cv.getFound() == this.controllers.size()) {
+            if (AEConfig.instance.MultiCores || (cv.isValid() && cv.getFound() == this.controllers.size())) {
                 this.controllerState = ControllerState.CONTROLLER_ONLINE;
             } else {
                 this.controllerState = ControllerState.CONTROLLER_CONFLICT;

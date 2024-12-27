@@ -32,6 +32,7 @@ public class ControllerValidator implements IGridVisitor {
     private int maxX;
     private int maxY;
     private int maxZ;
+    private int maxSize = 7;
 
     public ControllerValidator(final int x, final int y, final int z) {
         this.minX = x;
@@ -55,8 +56,8 @@ public class ControllerValidator implements IGridVisitor {
             this.minZ = Math.min(c.zCoord, this.minZ);
             this.maxZ = Math.max(c.zCoord, this.maxZ);
 
-            if (this.maxX - this.minX < 7 && this.maxY - this.minY < 7
-                && this.maxZ - this.minZ < 7) {
+            if (this.maxX - this.minX < this.maxSize && this.maxY - this.minY < this.maxSize
+                && this.maxZ - this.minZ < this.maxSize) {
                 this.setFound(this.getFound() + 1);
                 return true;
             }
@@ -83,5 +84,9 @@ public class ControllerValidator implements IGridVisitor {
 
     private void setFound(final int found) {
         this.found = found;
+    }
+
+    public void setMaxSize(int maxSize) {
+        this.maxSize = maxSize;
     }
 }

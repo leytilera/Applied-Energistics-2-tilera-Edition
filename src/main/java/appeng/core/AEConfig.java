@@ -121,6 +121,8 @@ public final class AEConfig
     public int ItemTypeLimit = 63;
     public boolean NeedController = false;
     public boolean HardLegacyController = false;
+    public boolean MultiCores = false;
+    public int MaxCoreSize = 7;
 
     public AEConfig(final File configFile) {
         super(configFile);
@@ -263,6 +265,12 @@ public final class AEConfig
         this.HardLegacyController
             = this.get("tileraedition", "hardLegacyController", this.HardLegacyController)
                   .getBoolean(this.HardLegacyController);
+        this.MultiCores
+            = this.get("tileraedition", "allowMultipleCores", this.MultiCores)
+                  .getBoolean(this.MultiCores);
+        this.MaxCoreSize
+            = this.get("tileraedition", "maxCoreSize", this.MaxCoreSize)
+                  .getInt(this.MaxCoreSize);
 
         this.clientSync();
 
