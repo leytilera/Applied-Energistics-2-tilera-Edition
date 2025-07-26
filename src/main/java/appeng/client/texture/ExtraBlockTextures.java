@@ -151,6 +151,11 @@ public enum ExtraBlockTextures {
         return new ResourceLocation("appliedenergistics2", "textures/" + string);
     }
 
+    // TODO: WTF
+    public static ResourceLocation GuiTexture(final String string) {
+        return guiTexture(string);
+    }
+
     @SideOnly(Side.CLIENT)
     public static IIcon getMissing() {
         return ((TextureMap) Minecraft.getMinecraft().getTextureManager().getTexture(
