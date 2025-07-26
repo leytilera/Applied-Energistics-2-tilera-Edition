@@ -27,6 +27,7 @@ import appeng.api.config.PowerMultiplier;
 import appeng.api.features.ILocatable;
 import appeng.api.features.IWirelessTermHandler;
 import appeng.api.implementations.guiobjects.IPortableCell;
+import appeng.api.implementations.tiles.IInterdimensionalWirelessAccessPoint;
 import appeng.api.implementations.tiles.IWirelessAccessPoint;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.IGridHost;
@@ -309,7 +310,17 @@ public class WirelessTerminalGuiObject
 
         final DimensionalCoord dc = wap.getLocation();
 
-        if (dc.getWorld() == this.myPlayer.worldObj) {
+        boolean hasInterdimConnection = false;
+
+        if (wap instanceof IInterdimensionalWirelessAccessPoint) {
+            IInterdimensionalWirelessAccessPoint iwap = (IInterdimensionalWirelessAccessPoint) wap;
+            hasInterdimConnection = iwap.isInterdimensional();
+            if(hasInterdimConnection) {
+                rangeLimit = Double.POSITIVE_INFINITY;
+            }
+        }
+
+        if (hasInterdimConnection || dc.getWorld() == this.myPlayer.worldObj) {
             final double offX = dc.x - this.myPlayer.posX;
             final double offY = dc.y - this.myPlayer.posY;
             final double offZ = dc.z - this.myPlayer.posZ;

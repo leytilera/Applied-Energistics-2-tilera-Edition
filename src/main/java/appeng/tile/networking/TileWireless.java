@@ -22,7 +22,7 @@ import java.util.EnumSet;
 
 import appeng.api.AEApi;
 import appeng.api.implementations.IPowerChannelState;
-import appeng.api.implementations.tiles.IWirelessAccessPoint;
+import appeng.api.implementations.tiles.IInterdimensionalWirelessAccessPoint;
 import appeng.api.networking.GridFlags;
 import appeng.api.networking.IGrid;
 import appeng.api.networking.events.MENetworkChannelsChanged;
@@ -45,7 +45,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileWireless
-    extends AENetworkInvTile implements IWirelessAccessPoint, IPowerChannelState {
+    extends AENetworkInvTile implements IInterdimensionalWirelessAccessPoint, IPowerChannelState {
     public static final int POWERED_FLAG = 1;
     public static final int CHANNEL_FLAG = 2;
 
@@ -203,5 +203,10 @@ public class TileWireless
 
     private void setClientFlags(final int clientFlags) {
         this.clientFlags = clientFlags;
+    }
+
+    @Override
+    public boolean isInterdimensional() {
+        return false;
     }
 }
