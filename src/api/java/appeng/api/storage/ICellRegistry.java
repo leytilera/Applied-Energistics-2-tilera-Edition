@@ -67,5 +67,5 @@ public interface ICellRegistry {
      * @return new IMEInventoryHandler, or null if there isn't one.
      */
     IMEInventoryHandler
-    getCellInventory(ItemStack is, ISaveProvider host, StorageChannel chan);
+    getCellInventory(ItemStack is, ISaveProvider host, IStorageChannel chan);
 }

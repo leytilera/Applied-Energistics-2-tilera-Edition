@@ -66,7 +66,7 @@ public class CellRegistry implements ICellRegistry {
 
     @Override
     public IMEInventoryHandler getCellInventory(
-        final ItemStack is, final ISaveProvider container, final StorageChannel chan
+        final ItemStack is, final ISaveProvider container, final IStorageChannel chan
     ) {
         if (is == null) {
             return null;

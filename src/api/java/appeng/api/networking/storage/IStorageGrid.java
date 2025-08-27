@@ -28,6 +28,7 @@ import appeng.api.networking.IGridHost;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.ICellContainer;
 import appeng.api.storage.ICellProvider;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.IStorageMonitorable;
 import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEStack;
@@ -36,6 +37,12 @@ import appeng.api.storage.data.IAEStack;
  * Common base class for item / fluid storage caches.
  */
 public interface IStorageGrid extends IGridCache, IStorageMonitorable {
+    
+    @Deprecated
+    void postAlterationOfStoredItems(
+        StorageChannel chan, Iterable<? extends IAEStack> input, BaseActionSource src
+    );
+
     /**
      * Used to inform the network of alterations to the storage system that fall outside
      * of the standard Network operations, Examples, ME Chest inputs from the world, or a
@@ -45,9 +52,11 @@ public interface IStorageGrid extends IGridCache, IStorageMonitorable {
      *
      * @param input injected items
      */
-    void postAlterationOfStoredItems(
-        StorageChannel chan, Iterable<? extends IAEStack> input, BaseActionSource src
-    );
+    default void postAlterationOfStoredItems(
+        IStorageChannel chan, Iterable<? extends IAEStack> input, BaseActionSource src
+    ) {
+        StorageChannel.call(chan, (c) -> postAlterationOfStoredItems(c, input, src));
+    }
 
     /**
      * Used to add a cell provider to the storage system

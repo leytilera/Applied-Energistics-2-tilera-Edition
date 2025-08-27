@@ -65,8 +65,13 @@ public interface IMEInventory<StackType extends IAEStack> {
      */
     IItemList<StackType> getAvailableItems(IItemList<StackType> out);
 
+    @Deprecated
+    StorageChannel getChannel();
+
     /**
      * @return the type of channel your handler should be part of
      */
-    StorageChannel getChannel();
+    default IStorageChannel<?> getStorageChannel() {
+        return getChannel();
+    }
 }

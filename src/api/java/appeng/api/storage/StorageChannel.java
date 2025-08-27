@@ -23,13 +23,17 @@
 
 package appeng.api.storage;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 import appeng.api.AEApi;
 import appeng.api.storage.data.IAEFluidStack;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IAEStack;
 import appeng.api.storage.data.IItemList;
 
-public enum StorageChannel {
+@Deprecated
+public enum StorageChannel implements IStorageChannel {
     /**
      * AE2's Default Storage.
      */
@@ -46,6 +50,7 @@ public enum StorageChannel {
         this.type = t;
     }
 
+    @Override
     public IItemList createList() {
         if (this == ITEMS) {
             return AEApi.instance().storage().createItemList();
@@ -53,4 +58,31 @@ public enum StorageChannel {
             return AEApi.instance().storage().createFluidList();
         }
     }
+
+    @Override
+    public Class getType() {
+        return type;
+    }
+
+    public static StorageChannel get(IStorageChannel channel) {
+        if (channel instanceof StorageChannel) {
+            return (StorageChannel) channel;
+        } else {
+            return null;
+        }
+    }
+
+    public static void call(IStorageChannel channel, Consumer<StorageChannel> action) {
+        if (channel instanceof StorageChannel) {
+            action.accept((StorageChannel)channel);
+        }
+    }
+
+    public static <T> T call(IStorageChannel channel, Function<StorageChannel, T> action, T def) {
+        if (channel instanceof StorageChannel) {
+            return action.apply((StorageChannel)channel);
+        }
+        return def;
+    }
+
 }

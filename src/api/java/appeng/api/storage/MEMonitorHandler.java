@@ -55,7 +55,7 @@ public class MEMonitorHandler<StackType extends IAEStack>
     }
 
     public MEMonitorHandler(
-        final IMEInventoryHandler<StackType> t, final StorageChannel chan
+        final IMEInventoryHandler<StackType> t, final IStorageChannel chan
     ) {
         this.internalHandler = t;
         this.cachedList = (IItemList<StackType>) chan.createList();
@@ -150,8 +150,14 @@ public class MEMonitorHandler<StackType extends IAEStack>
     }
 
     @Override
+    @Deprecated
     public StorageChannel getChannel() {
-        return this.getHandler().getChannel();
+        return StorageChannel.get(getStorageChannel());
+    }
+
+    @Override
+    public IStorageChannel<?> getStorageChannel() {
+        return this.getHandler().getStorageChannel();
     }
 
     @Override

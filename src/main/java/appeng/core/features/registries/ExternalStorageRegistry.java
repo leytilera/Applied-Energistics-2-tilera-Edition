@@ -24,6 +24,7 @@ import java.util.List;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.IExternalStorageHandler;
 import appeng.api.storage.IExternalStorageRegistry;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.StorageChannel;
 import appeng.core.features.registries.entries.ExternalIInv;
 import net.minecraft.tileentity.TileEntity;
@@ -46,7 +47,7 @@ public class ExternalStorageRegistry implements IExternalStorageRegistry {
     public IExternalStorageHandler getHandler(
         final TileEntity te,
         final ForgeDirection d,
-        final StorageChannel chan,
+        final IStorageChannel chan,
         final BaseActionSource mySrc
     ) {
         for (final IExternalStorageHandler x : this.Handlers) {

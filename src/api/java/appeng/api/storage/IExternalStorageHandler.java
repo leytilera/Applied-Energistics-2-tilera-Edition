@@ -31,6 +31,12 @@ import net.minecraftforge.common.util.ForgeDirection;
  * A Registration Record for {@link IExternalStorageRegistry}
  */
 public interface IExternalStorageHandler {
+    
+    @Deprecated
+    boolean canHandle(
+        TileEntity te, ForgeDirection d, StorageChannel channel, BaseActionSource mySrc
+    );
+
     /**
      * if this can handle the provided inventory, return true. ( Generally skipped by AE,
      * and it just calls getInventory
@@ -40,8 +46,14 @@ public interface IExternalStorageHandler {
      * @param mySrc source
      * @return true, if it can get a handler via getInventory
      */
-    boolean canHandle(
-        TileEntity te, ForgeDirection d, StorageChannel channel, BaseActionSource mySrc
+    default boolean canHandle(
+        TileEntity te, ForgeDirection d, IStorageChannel channel, BaseActionSource mySrc
+    ) {
+        return StorageChannel.call(channel, (c) -> canHandle(te, d, c, mySrc), false);
+    }
+    
+    IMEInventory getInventory(
+        TileEntity te, ForgeDirection d, StorageChannel channel, BaseActionSource src
     );
 
     /**
@@ -57,7 +69,9 @@ public interface IExternalStorageHandler {
      * @param src     source
      * @return The Handler for the inventory
      */
-    IMEInventory getInventory(
-        TileEntity te, ForgeDirection d, StorageChannel channel, BaseActionSource src
-    );
+    default IMEInventory getInventory(
+        TileEntity te, ForgeDirection d, IStorageChannel channel, BaseActionSource src
+    ) {
+        return StorageChannel.call(channel, (c) -> getInventory(te, d, c, src), null);
+    }
 }

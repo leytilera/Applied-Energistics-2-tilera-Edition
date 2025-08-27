@@ -52,7 +52,7 @@ public interface IExternalStorageRegistry {
     IExternalStorageHandler getHandler(
         TileEntity te,
         ForgeDirection opposite,
-        StorageChannel channel,
+        IStorageChannel channel,
         BaseActionSource mySrc
     );
 }

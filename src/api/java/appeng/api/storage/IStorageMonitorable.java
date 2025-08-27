@@ -26,6 +26,7 @@ package appeng.api.storage;
 import appeng.api.implementations.tiles.ITileStorageMonitorable;
 import appeng.api.storage.data.IAEFluidStack;
 import appeng.api.storage.data.IAEItemStack;
+import appeng.api.storage.data.IAEStack;
 
 /**
  * represents the internal behavior of a {@link ITileStorageMonitorable} use it to get
@@ -36,10 +37,26 @@ public interface IStorageMonitorable {
     /**
      * Access the item inventory for the monitorable storage.
      */
+    @Deprecated
     IMEMonitor<IAEItemStack> getItemInventory();
 
     /**
      * Access the fluid inventory for the monitorable storage.
      */
+    @Deprecated
     IMEMonitor<IAEFluidStack> getFluidInventory();
+
+    /**
+     * Access the inventory of a specific channel for the monitorable storage.
+     */
+    @SuppressWarnings("unchecked")
+    default <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
+        if (channel == StorageChannel.ITEMS) {
+            return (IMEMonitor<T>) getItemInventory();
+        } else if (channel == StorageChannel.FLUIDS) {
+            return (IMEMonitor<T>) getFluidInventory();
+        }
+        return null;
+    }
+
 }

@@ -42,6 +42,10 @@ public interface ICellHandler {
      * @return return true, if getCellHandler will not return null.
      */
     boolean isCell(ItemStack is);
+    
+    @Deprecated
+    IMEInventoryHandler
+    getCellInventory(ItemStack is, ISaveProvider host, StorageChannel channel);
 
     /**
      * If you cannot handle the provided item, return null
@@ -53,8 +57,10 @@ public interface ICellHandler {
      * @param channel the storage channel requested.
      * @return a new IMEHandler for the provided item
      */
-    IMEInventoryHandler
-    getCellInventory(ItemStack is, ISaveProvider host, StorageChannel channel);
+    default IMEInventoryHandler
+    getCellInventory(ItemStack is, ISaveProvider host, IStorageChannel channel) {
+        return StorageChannel.call(channel, (c) -> getCellInventory(is, host, c), null);
+    }
 
     /**
      * @return the ME Chest texture for light pixels this storage cell type, should be
@@ -96,6 +102,7 @@ public interface ICellHandler {
      * @param is          item
      * @param chan        storage channel
      */
+    @Deprecated
     void openChestGui(
         EntityPlayer player,
         IChestOrDrive chest,
@@ -104,6 +111,17 @@ public interface ICellHandler {
         ItemStack is,
         StorageChannel chan
     );
+
+    default void openChestGui(
+        EntityPlayer player,
+        IChestOrDrive chest,
+        ICellHandler cellHandler,
+        IMEInventoryHandler inv,
+        ItemStack is,
+        IStorageChannel chan
+    ) {
+        StorageChannel.call(chan, (c) -> openChestGui(player, chest, cellHandler, inv, is, c));
+    }
 
     /**
      * 0 - cell is missing.
