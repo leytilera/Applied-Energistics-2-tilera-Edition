@@ -38,9 +38,11 @@ import appeng.api.networking.security.IActionHost;
 import appeng.api.networking.storage.IStorageGrid;
 import appeng.api.storage.IMEMonitor;
 import appeng.api.storage.IMEMonitorHandlerReceiver;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEFluidStack;
 import appeng.api.storage.data.IAEItemStack;
+import appeng.api.storage.data.IAEStack;
 import appeng.api.storage.data.IItemList;
 import appeng.api.util.AECableType;
 import appeng.api.util.DimensionalCoord;
@@ -109,18 +111,20 @@ public class WirelessTerminalGuiObject
 
     @Override
     public IMEMonitor<IAEItemStack> getItemInventory() {
-        if (this.sg == null) {
-            return null;
-        }
-        return this.sg.getItemInventory();
+        return getInventory(StorageChannel.ITEMS);
     }
 
     @Override
     public IMEMonitor<IAEFluidStack> getFluidInventory() {
+        return getInventory(StorageChannel.FLUIDS);
+    }
+
+    @Override
+    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
         if (this.sg == null) {
             return null;
         }
-        return this.sg.getFluidInventory();
+        return this.sg.getInventory(channel);
     }
 
     @Override

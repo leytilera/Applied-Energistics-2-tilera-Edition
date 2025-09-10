@@ -30,6 +30,7 @@ import appeng.api.networking.security.ISecurityGrid;
 import appeng.api.networking.security.MachineSource;
 import appeng.api.networking.security.PlayerSource;
 import appeng.api.storage.IMEInventoryHandler;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEStack;
 import appeng.api.storage.data.IItemList;
@@ -49,14 +50,14 @@ public class NetworkInventoryHandler<T extends IAEStack<T>>
         }
     };
     private static int currentPass = 0;
-    private final StorageChannel myChannel;
+    private final IStorageChannel myChannel;
     private final SecurityCache security;
     // final TreeMultimap<Integer, IMEInventoryHandler<T>> priorityInventory;
     private final NavigableMap<Integer, List<IMEInventoryHandler<T>>> priorityInventory;
     private int myPass = 0;
 
     public NetworkInventoryHandler(
-        final StorageChannel chan, final SecurityCache security
+        final IStorageChannel chan, final SecurityCache security
     ) {
         this.myChannel = chan;
         this.security = security;
@@ -266,6 +267,11 @@ public class NetworkInventoryHandler<T extends IAEStack<T>>
 
     @Override
     public StorageChannel getChannel() {
+        return StorageChannel.get(getStorageChannel());
+    }
+
+    @Override
+    public IStorageChannel<?> getStorageChannel() {
         return this.myChannel;
     }
 

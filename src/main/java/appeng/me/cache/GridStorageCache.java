@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import appeng.api.AEApi;
 import appeng.api.networking.IGrid;
@@ -57,23 +58,24 @@ public class GridStorageCache implements IStorageGrid {
     private final SetMultimap<IAEStack, ItemWatcher> interests = HashMultimap.create();
     private final GenericInterestManager<ItemWatcher> interestManager
         = new GenericInterestManager<ItemWatcher>(this.interests);
-    private final NetworkMonitor<IAEItemStack> itemMonitor
+    /*private final NetworkMonitor<IAEItemStack> itemMonitor
         = new NetworkMonitor<IAEItemStack>(this, StorageChannel.ITEMS);
     private final NetworkMonitor<IAEFluidStack> fluidMonitor
-        = new NetworkMonitor<IAEFluidStack>(this, StorageChannel.FLUIDS);
+        = new NetworkMonitor<IAEFluidStack>(this, StorageChannel.FLUIDS);*/
+    private final Map<IStorageChannel, NetworkMonitor> monitors = new HashMap<>();
     private final HashMap<IGridNode, IStackWatcher> watchers
         = new HashMap<IGridNode, IStackWatcher>();
-    private NetworkInventoryHandler<IAEItemStack> myItemNetwork;
-    private NetworkInventoryHandler<IAEFluidStack> myFluidNetwork;
+    private Map<IStorageChannel, NetworkInventoryHandler> myNetworks = new HashMap<>();
 
     public GridStorageCache(final IGrid g) {
         this.myGrid = g;
+        monitors.put(StorageChannel.ITEMS, new NetworkMonitor<IAEItemStack>(this, StorageChannel.ITEMS));
+        monitors.put(StorageChannel.FLUIDS, new NetworkMonitor<IAEItemStack>(this, StorageChannel.FLUIDS));
     }
 
     @Override
     public void onUpdateTick() {
-        this.itemMonitor.onTick();
-        this.fluidMonitor.onTick();
+        this.monitors.forEach((k, v) -> v.onTick());
     }
 
     @Override
@@ -185,8 +187,9 @@ public class GridStorageCache implements IStorageGrid {
 
     @MENetworkEventSubscribe
     public void cellUpdate(final MENetworkCellArrayUpdate ev) {
-        this.myItemNetwork = null;
-        this.myFluidNetwork = null;
+        //this.myItemNetwork = null;
+        //this.myFluidNetwork = null;
+        this.myNetworks.clear();
 
         final LinkedList<ICellProvider> ll = new LinkedList();
         ll.addAll(this.inactiveCellProviders);
@@ -209,71 +212,46 @@ public class GridStorageCache implements IStorageGrid {
             }
         }
 
-        this.itemMonitor.forceUpdate();
-        this.fluidMonitor.forceUpdate();
+        this.monitors.forEach((k, v) -> v.forceUpdate());
 
         tracker.applyChanges();
     }
 
     private void postChangesToNetwork(
-        final StorageChannel chan,
+        final IStorageChannel chan,
         final int upOrDown,
         final IItemList availableItems,
         final BaseActionSource src
     ) {
-        switch (chan) {
-            case FLUIDS:
-                this.fluidMonitor.postChange(upOrDown > 0, availableItems, src);
-                break;
-            case ITEMS:
-                this.itemMonitor.postChange(upOrDown > 0, availableItems, src);
-                break;
-            default:
+        if (this.monitors.containsKey(chan)) {
+            this.monitors.get(chan).postChange(upOrDown > 0, availableItems, src);
         }
     }
 
     IMEInventoryHandler<IAEItemStack> getItemInventoryHandler() {
-        if (this.myItemNetwork == null) {
+        if (!this.myNetworks.containsKey(StorageChannel.ITEMS)) {
             this.buildNetworkStorage(StorageChannel.ITEMS);
         }
-        return this.myItemNetwork;
+        return this.myNetworks.get(StorageChannel.ITEMS);
     }
 
-    private void buildNetworkStorage(final StorageChannel chan) {
+    private void buildNetworkStorage(final IStorageChannel chan) {
         final SecurityCache security = this.getGrid().getCache(ISecurityGrid.class);
-
-        switch (chan) {
-            case FLUIDS:
-                this.myFluidNetwork = new NetworkInventoryHandler<IAEFluidStack>(
-                    StorageChannel.FLUIDS, security
-                );
-                for (final ICellProvider cc : this.activeCellProviders) {
-                    for (final IMEInventoryHandler<IAEFluidStack> h :
-                         cc.getCellArray(chan)) {
-                        this.myFluidNetwork.addNewStorage(h);
-                    }
-                }
-                break;
-            case ITEMS:
-                this.myItemNetwork = new NetworkInventoryHandler<IAEItemStack>(
-                    StorageChannel.ITEMS, security
-                );
-                for (final ICellProvider cc : this.activeCellProviders) {
-                    for (final IMEInventoryHandler<IAEItemStack> h :
-                         cc.getCellArray(chan)) {
-                        this.myItemNetwork.addNewStorage(h);
-                    }
-                }
-                break;
-            default:
+        NetworkInventoryHandler myNetwork = new NetworkInventoryHandler(chan, security);
+        myNetworks.put(chan, myNetwork);
+        for (final ICellProvider cc : this.activeCellProviders) {
+            for (final IMEInventoryHandler<IAEFluidStack> h :
+                cc.getCellArray(chan)) {
+                myNetwork.addNewStorage(h);
+            }
         }
     }
 
     IMEInventoryHandler<IAEFluidStack> getFluidInventoryHandler() {
-        if (this.myFluidNetwork == null) {
+        if (!this.myNetworks.containsKey(StorageChannel.FLUIDS)) {
             this.buildNetworkStorage(StorageChannel.FLUIDS);
         }
-        return this.myFluidNetwork;
+        return this.myNetworks.get(StorageChannel.FLUIDS);
     }
 
     @Override
@@ -282,10 +260,8 @@ public class GridStorageCache implements IStorageGrid {
         final Iterable<? extends IAEStack> input,
         final BaseActionSource src
     ) {
-        if (chan == StorageChannel.ITEMS) {
-            this.itemMonitor.postChange(true, (Iterable<IAEItemStack>) input, src);
-        } else if (chan == StorageChannel.FLUIDS) {
-            this.fluidMonitor.postChange(true, (Iterable<IAEFluidStack>) input, src);
+        if (this.monitors.containsKey(chan)) {
+            this.monitors.get(chan).postChange(true, (Iterable<IAEItemStack>) input, src);
         }
     }
 
@@ -303,12 +279,17 @@ public class GridStorageCache implements IStorageGrid {
 
     @Override
     public IMEMonitor<IAEItemStack> getItemInventory() {
-        return this.itemMonitor;
+        return getInventory(StorageChannel.ITEMS);
     }
 
     @Override
     public IMEMonitor<IAEFluidStack> getFluidInventory() {
-        return this.fluidMonitor;
+        return getInventory(StorageChannel.FLUIDS);
+    }
+
+    @Override
+    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
+        return this.monitors.get(channel);
     }
 
     public GenericInterestManager<ItemWatcher> getInterestManager() {
@@ -320,13 +301,13 @@ public class GridStorageCache implements IStorageGrid {
     }
 
     private class CellChangeTrackerRecord {
-        final StorageChannel channel;
+        final IStorageChannel channel;
         final int up_or_down;
         final IItemList list;
         final BaseActionSource src;
 
         public CellChangeTrackerRecord(
-            final StorageChannel channel,
+            final IStorageChannel channel,
             final int i,
             final IMEInventoryHandler<? extends IAEStack> h,
             final BaseActionSource actionSrc
@@ -334,19 +315,7 @@ public class GridStorageCache implements IStorageGrid {
             this.channel = channel;
             this.up_or_down = i;
             this.src = actionSrc;
-
-            if (channel == StorageChannel.ITEMS) {
-                this.list
-                    = ((IMEInventoryHandler<IAEItemStack>) h)
-                          .getAvailableItems(AEApi.instance().storage().createItemList());
-            } else if (channel == StorageChannel.FLUIDS) {
-                this.list
-                    = ((IMEInventoryHandler<IAEFluidStack>) h)
-                          .getAvailableItems(AEApi.instance().storage().createFluidList()
-                          );
-            } else {
-                this.list = null;
-            }
+            this.list = h.getAvailableItems(channel.createList());
         }
 
         public void applyChanges() {
@@ -361,7 +330,7 @@ public class GridStorageCache implements IStorageGrid {
             = new LinkedList<CellChangeTrackerRecord>();
 
         public void postChanges(
-            final StorageChannel channel,
+            final IStorageChannel channel,
             final int i,
             final IMEInventoryHandler<? extends IAEStack> h,
             final BaseActionSource actionSrc

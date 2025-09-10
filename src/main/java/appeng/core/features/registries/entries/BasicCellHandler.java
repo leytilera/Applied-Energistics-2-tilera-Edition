@@ -18,6 +18,7 @@
 
 package appeng.core.features.registries.entries;
 
+import appeng.api.implementations.items.IStorageCell;
 import appeng.api.implementations.tiles.IChestOrDrive;
 import appeng.api.storage.*;
 import appeng.client.texture.ExtraBlockTextures;
@@ -39,6 +40,13 @@ public class BasicCellHandler implements ICellHandler {
     @Override
     public IMEInventoryHandler getCellInventory(
         final ItemStack is, final ISaveProvider container, final StorageChannel channel
+    ) {
+        return getCellInventory(is, container, (IStorageChannel)channel);
+    }
+
+    @Override
+    public IMEInventoryHandler getCellInventory(
+        final ItemStack is, final ISaveProvider container, final IStorageChannel channel
     ) {
         if (channel == StorageChannel.ITEMS) {
             return CellInventory.getCell(is, container);

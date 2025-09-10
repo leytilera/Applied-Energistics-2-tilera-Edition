@@ -19,15 +19,26 @@
 package appeng.core.api;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ClassToInstanceMap;
+import com.google.common.collect.MutableClassToInstanceMap;
 
 import appeng.api.networking.crafting.ICraftingLink;
 import appeng.api.networking.crafting.ICraftingRequester;
 import appeng.api.networking.energy.IEnergySource;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.IMEInventory;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.IStorageHelper;
+import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IFluidStorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEFluidStack;
 import appeng.api.storage.data.IAEItemStack;
+import appeng.api.storage.data.IAEStack;
 import appeng.api.storage.data.IItemList;
 import appeng.crafting.CraftingLink;
 import appeng.util.Platform;
@@ -41,6 +52,15 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 
 public class ApiStorage implements IStorageHelper {
+
+    private final ClassToInstanceMap<IStorageChannel<?>> channels;
+
+    public ApiStorage() {
+		this.channels = MutableClassToInstanceMap.create();
+		this.registerStorageChannel( IItemStorageChannel.class, (IItemStorageChannel)(IStorageChannel)StorageChannel.ITEMS);
+		this.registerStorageChannel( IFluidStorageChannel.class, (IFluidStorageChannel)(IStorageChannel)StorageChannel.FLUIDS);
+	}
+
     @Override
     public ICraftingLink
     loadCraftingLink(final NBTTagCompound data, final ICraftingRequester req) {
@@ -95,5 +115,32 @@ public class ApiStorage implements IStorageHelper {
         final BaseActionSource src
     ) {
         return Platform.poweredInsert(energy, cell, input, src);
+    }
+
+    @Override
+    public <T extends IAEStack<T>, C extends IStorageChannel<T>> void registerStorageChannel(Class<C> channel,
+            C factory) {
+        Preconditions.checkNotNull(channel);
+		Preconditions.checkNotNull(factory);
+		Preconditions.checkArgument(channel.isInstance(factory));
+		Preconditions.checkArgument(!this.channels.containsKey(channel));
+
+		this.channels.putInstance(channel, factory);
+    }
+
+    @Override
+    public <T extends IAEStack<T>, C extends IStorageChannel<T>> C getStorageChannel(Class<C> channel) {
+        Preconditions.checkNotNull(channel);
+
+		final C type = this.channels.getInstance(channel);
+
+		Preconditions.checkNotNull(type);
+
+		return type;
+    }
+
+    @Override
+    public Collection<IStorageChannel<? extends IAEStack<?>>> storageChannels() {
+        return Collections.unmodifiableCollection(this.channels.values());
     }
 }

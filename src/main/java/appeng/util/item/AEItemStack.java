@@ -24,6 +24,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import appeng.api.config.FuzzyMode;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IAETagCompound;
@@ -378,6 +379,11 @@ public final class AEItemStack
 
     @Override
     public StorageChannel getChannel() {
+        return StorageChannel.ITEMS;
+    }
+
+    @Override
+    public IStorageChannel getStorageChannel() {
         return StorageChannel.ITEMS;
     }
 

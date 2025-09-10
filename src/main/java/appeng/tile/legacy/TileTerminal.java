@@ -8,9 +8,12 @@ import appeng.api.config.SortOrder;
 import appeng.api.config.ViewItems;
 import appeng.api.networking.GridFlags;
 import appeng.api.storage.IMEMonitor;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.ITerminalHost;
+import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEFluidStack;
 import appeng.api.storage.data.IAEItemStack;
+import appeng.api.storage.data.IAEStack;
 import appeng.api.util.IConfigManager;
 import appeng.me.GridAccessException;
 import appeng.util.ConfigManager;
@@ -33,18 +36,18 @@ public class TileTerminal
 
     @Override
     public IMEMonitor<IAEItemStack> getItemInventory() {
-        try {
-            return this.getProxy().getStorage().getItemInventory();
-        } catch (final GridAccessException e) {
-            // err nope?
-        }
-        return null;
+        return getInventory(StorageChannel.ITEMS);
     }
 
     @Override
     public IMEMonitor<IAEFluidStack> getFluidInventory() {
+        return getInventory(StorageChannel.FLUIDS);
+    }
+
+    @Override
+    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
         try {
-            return this.getProxy().getStorage().getFluidInventory();
+            return this.getProxy().getStorage().getInventory(channel);
         } catch (final GridAccessException e) {
             // err nope?
         }

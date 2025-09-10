@@ -38,9 +38,12 @@ import appeng.api.networking.ticking.TickingRequest;
 import appeng.api.parts.IPartCollisionHelper;
 import appeng.api.parts.IPartRenderHelper;
 import appeng.api.storage.IMEMonitor;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.IStorageMonitorable;
+import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEFluidStack;
 import appeng.api.storage.data.IAEItemStack;
+import appeng.api.storage.data.IAEStack;
 import appeng.api.util.IConfigManager;
 import appeng.client.texture.CableBusTextures;
 import appeng.core.sync.GuiBridge;
@@ -243,12 +246,17 @@ public class PartInterface extends PartBasicState
 
     @Override
     public IMEMonitor<IAEItemStack> getItemInventory() {
-        return this.duality.getItemInventory();
+        return getInventory(StorageChannel.ITEMS);
     }
 
     @Override
     public IMEMonitor<IAEFluidStack> getFluidInventory() {
-        return this.duality.getFluidInventory();
+        return getInventory(StorageChannel.FLUIDS);
+    }
+
+    @Override
+    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
+        return this.duality.getInventory(channel);
     }
 
     @Override

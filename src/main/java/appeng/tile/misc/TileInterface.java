@@ -42,9 +42,12 @@ import appeng.api.networking.ticking.IGridTickable;
 import appeng.api.networking.ticking.TickRateModulation;
 import appeng.api.networking.ticking.TickingRequest;
 import appeng.api.storage.IMEMonitor;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.IStorageMonitorable;
+import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEFluidStack;
 import appeng.api.storage.data.IAEItemStack;
+import appeng.api.storage.data.IAEStack;
 import appeng.api.util.AECableType;
 import appeng.api.util.DimensionalCoord;
 import appeng.api.util.IConfigManager;
@@ -187,12 +190,17 @@ public class TileInterface extends AENetworkInvTile
 
     @Override
     public IMEMonitor<IAEItemStack> getItemInventory() {
-        return this.duality.getItemInventory();
+        return getInventory(StorageChannel.ITEMS);
     }
 
     @Override
     public IMEMonitor<IAEFluidStack> getFluidInventory() {
-        return this.duality.getFluidInventory();
+        return getInventory(StorageChannel.FLUIDS);
+    }
+
+    @Override
+    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
+        return this.duality.getInventory(channel);
     }
 
     @Override

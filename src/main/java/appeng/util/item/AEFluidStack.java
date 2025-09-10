@@ -22,6 +22,7 @@ import java.io.*;
 import javax.annotation.Nonnull;
 
 import appeng.api.config.FuzzyMode;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEFluidStack;
 import appeng.api.storage.data.IAEStack;
@@ -247,6 +248,11 @@ public final class AEFluidStack
 
     @Override
     public StorageChannel getChannel() {
+        return StorageChannel.FLUIDS;
+    }
+
+    @Override
+    public IStorageChannel<?> getStorageChannel() {
         return StorageChannel.FLUIDS;
     }
 
