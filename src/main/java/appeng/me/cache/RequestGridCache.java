@@ -22,6 +22,7 @@ import appeng.api.networking.security.BaseActionSource;
 import appeng.api.networking.storage.IStorageGrid;
 import appeng.api.storage.ICellProvider;
 import appeng.api.storage.IMEInventoryHandler;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
@@ -203,7 +204,7 @@ public class RequestGridCache
     }
 
     @Override
-    public List<IMEInventoryHandler> getCellArray(StorageChannel channel) {
+    public List<IMEInventoryHandler> getCellArray(IStorageChannel channel) {
         final List<IMEInventoryHandler> list = new ArrayList<>(1);
 
         if (channel == StorageChannel.ITEMS) {

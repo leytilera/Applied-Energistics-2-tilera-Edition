@@ -35,16 +35,6 @@ public class TileTerminal
     }
 
     @Override
-    public IMEMonitor<IAEItemStack> getItemInventory() {
-        return getInventory(StorageChannel.ITEMS);
-    }
-
-    @Override
-    public IMEMonitor<IAEFluidStack> getFluidInventory() {
-        return getInventory(StorageChannel.FLUIDS);
-    }
-
-    @Override
     public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
         try {
             return this.getProxy().getStorage().getInventory(channel);

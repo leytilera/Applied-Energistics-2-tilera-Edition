@@ -98,7 +98,7 @@ public class WirelessTerminalGuiObject
                 if (this.targetGrid != null) {
                     this.sg = this.targetGrid.getCache(IStorageGrid.class);
                     if (this.sg != null) {
-                        this.itemStorage = this.sg.getItemInventory();
+                        this.itemStorage = this.sg.getInventory(StorageChannel.ITEMS);
                     }
                 }
             }
@@ -107,16 +107,6 @@ public class WirelessTerminalGuiObject
 
     public double getRange() {
         return this.myRange;
-    }
-
-    @Override
-    public IMEMonitor<IAEItemStack> getItemInventory() {
-        return getInventory(StorageChannel.ITEMS);
-    }
-
-    @Override
-    public IMEMonitor<IAEFluidStack> getFluidInventory() {
-        return getInventory(StorageChannel.FLUIDS);
     }
 
     @Override

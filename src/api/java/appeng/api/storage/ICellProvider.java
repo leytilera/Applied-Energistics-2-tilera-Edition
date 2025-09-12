@@ -23,7 +23,6 @@
 
 package appeng.api.storage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,9 +31,6 @@ import java.util.List;
  * handled by the storage system.
  */
 public interface ICellProvider {
-    
-    @Deprecated
-    List<IMEInventoryHandler> getCellArray(StorageChannel channel);
 
     /**
      * Inventory of the tile for use with ME, should always return an valid list, never
@@ -44,9 +40,7 @@ public interface ICellProvider {
      *
      * @return a valid list of handlers, NEVER NULL
      */
-    default List<IMEInventoryHandler> getCellArray(IStorageChannel channel) {
-        return StorageChannel.call(channel, (c) -> getCellArray(c), new ArrayList<>());
-    }
+    List<IMEInventoryHandler> getCellArray(IStorageChannel channel);
 
     /**
      * the storage's priority.

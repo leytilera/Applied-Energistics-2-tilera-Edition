@@ -145,7 +145,7 @@ public class TileChest extends AENetworkPowerTile
         return 1;
     }
 
-    protected IMEInventoryHandler getHandler(final StorageChannel channel)
+    protected IMEInventoryHandler getHandler(final IStorageChannel channel)
         throws ChestNoHandler {
         if (!this.isCached) {
             this.itemCell = null;
@@ -181,18 +181,16 @@ public class TileChest extends AENetworkPowerTile
             }
         }
 
-        switch (channel) {
-            case FLUIDS:
-                if (this.fluidCell == null) {
-                    throw NO_HANDLER;
-                }
-                return this.fluidCell;
-            case ITEMS:
-                if (this.itemCell == null) {
-                    throw NO_HANDLER;
-                }
-                return this.itemCell;
-            default:
+        if (channel == StorageChannel.FLUIDS) {
+            if (this.fluidCell == null) {
+                throw NO_HANDLER;
+            }
+            return this.fluidCell;
+        } else if (channel == StorageChannel.ITEMS) {
+            if (this.itemCell == null) {
+                throw NO_HANDLER;
+            }
+            return this.itemCell;
         }
 
         return null;
@@ -410,13 +408,13 @@ public class TileChest extends AENetworkPowerTile
     }
 
     @Override
-    public IMEMonitor getItemInventory() {
-        return this.itemCell;
-    }
-
-    @Override
-    public IMEMonitor getFluidInventory() {
-        return this.fluidCell;
+    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
+        if (channel == StorageChannel.ITEMS) {
+            return this.itemCell;
+        } else if (channel == StorageChannel.FLUIDS) {
+            return this.fluidCell;
+        }
+        return null;
     }
 
     @Override
@@ -541,7 +539,7 @@ public class TileChest extends AENetworkPowerTile
     }
 
     @Override
-    public List<IMEInventoryHandler> getCellArray(final StorageChannel channel) {
+    public List<IMEInventoryHandler> getCellArray(final IStorageChannel channel) {
         if (this.getProxy().isActive()) {
             try {
                 return Collections.singletonList(this.getHandler(channel));

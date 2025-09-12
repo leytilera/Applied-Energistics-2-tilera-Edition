@@ -61,6 +61,14 @@ public class MEMonitorHandler<StackType extends IAEStack>
         this.cachedList = (IItemList<StackType>) chan.createList();
     }
 
+    @Deprecated
+    public MEMonitorHandler(
+        final IMEInventoryHandler<StackType> t, final StorageChannel chan
+    ) {
+        this.internalHandler = t;
+        this.cachedList = (IItemList<StackType>) chan.createList();
+    }
+
     @Override
     public void addListener(
         final IMEMonitorHandlerReceiver<StackType> l, final Object verificationToken

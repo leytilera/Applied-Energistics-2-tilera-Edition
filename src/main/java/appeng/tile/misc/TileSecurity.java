@@ -38,10 +38,13 @@ import appeng.api.networking.events.MENetworkSecurityChange;
 import appeng.api.networking.security.ISecurityProvider;
 import appeng.api.storage.IMEInventoryHandler;
 import appeng.api.storage.IMEMonitor;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.ITerminalHost;
 import appeng.api.storage.MEMonitorHandler;
+import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEFluidStack;
 import appeng.api.storage.data.IAEItemStack;
+import appeng.api.storage.data.IAEStack;
 import appeng.api.util.AECableType;
 import appeng.api.util.AEColor;
 import appeng.api.util.DimensionalCoord;
@@ -247,12 +250,10 @@ public class TileSecurity extends AENetworkTile
     }
 
     @Override
-    public IMEMonitor<IAEItemStack> getItemInventory() {
-        return this.securityMonitor;
-    }
-
-    @Override
-    public IMEMonitor<IAEFluidStack> getFluidInventory() {
+    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
+        if (channel == StorageChannel.ITEMS) {
+            return (IMEMonitor<T>) this.securityMonitor;
+        }
         return null;
     }
 

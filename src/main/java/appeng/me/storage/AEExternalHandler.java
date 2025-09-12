@@ -22,10 +22,9 @@ import appeng.api.implementations.tiles.ITileStorageMonitorable;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.IExternalStorageHandler;
 import appeng.api.storage.IMEInventory;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.IStorageMonitorable;
 import appeng.api.storage.StorageChannel;
-import appeng.api.storage.data.IAEFluidStack;
-import appeng.api.storage.data.IAEItemStack;
 import appeng.tile.misc.TileCondenser;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -35,7 +34,7 @@ public class AEExternalHandler implements IExternalStorageHandler {
     public boolean canHandle(
         final TileEntity te,
         final ForgeDirection d,
-        final StorageChannel channel,
+        final IStorageChannel channel,
         final BaseActionSource mySrc
     ) {
         if (channel == StorageChannel.ITEMS && te instanceof ITileStorageMonitorable) {
@@ -49,7 +48,7 @@ public class AEExternalHandler implements IExternalStorageHandler {
     public IMEInventory getInventory(
         final TileEntity te,
         final ForgeDirection d,
-        final StorageChannel channel,
+        final IStorageChannel channel,
         final BaseActionSource src
     ) {
         if (te instanceof TileCondenser) {
@@ -64,17 +63,10 @@ public class AEExternalHandler implements IExternalStorageHandler {
             final ITileStorageMonitorable iface = (ITileStorageMonitorable) te;
             final IStorageMonitorable sm = iface.getMonitorable(d, src);
 
-            if (channel == StorageChannel.ITEMS && sm != null) {
-                final IMEInventory<IAEItemStack> ii = sm.getItemInventory();
+            if (sm != null) {
+                final IMEInventory ii = sm.getInventory(channel);
                 if (ii != null) {
                     return ii;
-                }
-            }
-
-            if (channel == StorageChannel.FLUIDS && sm != null) {
-                final IMEInventory<IAEFluidStack> fi = sm.getFluidInventory();
-                if (fi != null) {
-                    return fi;
                 }
             }
         }

@@ -27,6 +27,7 @@ import appeng.api.definitions.IDefinitions;
 import appeng.api.networking.security.MachineSource;
 import appeng.api.storage.IMEMonitor;
 import appeng.api.storage.ITerminalHost;
+import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import appeng.container.ContainerNull;
@@ -396,7 +397,7 @@ public class ContainerPatternTerm extends ContainerMEMonitorable
             }
 
             final IMEMonitor<IAEItemStack> storage
-                = this.getPatternTerminal().getItemInventory();
+                = this.getPatternTerminal().getInventory(StorageChannel.ITEMS);
             final IItemList<IAEItemStack> all = storage.getStorageList();
 
             final ItemStack is = r.getCraftingResult(ic);

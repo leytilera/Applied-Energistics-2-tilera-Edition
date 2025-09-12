@@ -307,9 +307,9 @@ public class TileIOPort extends AENetworkInvTile
 
         try {
             final IMEInventory<IAEItemStack> itemNet
-                = this.getProxy().getStorage().getItemInventory();
+                = this.getProxy().getStorage().getInventory(StorageChannel.ITEMS);
             final IMEInventory<IAEFluidStack> fluidNet
-                = this.getProxy().getStorage().getFluidInventory();
+                = this.getProxy().getStorage().getInventory(StorageChannel.FLUIDS);
             final IEnergySource energy = this.getProxy().getEnergy();
             for (int x = 0; x < 6; x++) {
                 final ItemStack is = this.cells.getStackInSlot(x);

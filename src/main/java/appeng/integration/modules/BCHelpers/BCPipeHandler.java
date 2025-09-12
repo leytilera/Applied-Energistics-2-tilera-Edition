@@ -21,6 +21,7 @@ package appeng.integration.modules.BCHelpers;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.IExternalStorageHandler;
 import appeng.api.storage.IMEInventory;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.StorageChannel;
 import appeng.integration.IntegrationRegistry;
 import appeng.integration.IntegrationType;
@@ -33,7 +34,7 @@ public class BCPipeHandler implements IExternalStorageHandler {
     public boolean canHandle(
         final TileEntity te,
         final ForgeDirection d,
-        final StorageChannel chan,
+        final IStorageChannel chan,
         final BaseActionSource mySrc
     ) {
         if (IntegrationRegistry.INSTANCE.isEnabled(IntegrationType.BuildCraftTransport)) {
@@ -51,7 +52,7 @@ public class BCPipeHandler implements IExternalStorageHandler {
     public IMEInventory getInventory(
         final TileEntity te,
         final ForgeDirection d,
-        final StorageChannel chan,
+        final IStorageChannel chan,
         final BaseActionSource src
     ) {
         if (chan == StorageChannel.ITEMS) {

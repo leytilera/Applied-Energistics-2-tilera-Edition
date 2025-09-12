@@ -189,7 +189,7 @@ public abstract class AbstractPartMonitor
                     this.myWatcher.add(this.configuredItem);
                 }
 
-                this.updateReportingValue(this.getProxy().getStorage().getItemInventory()
+                this.updateReportingValue(this.getProxy().getStorage().getInventory(StorageChannel.ITEMS)
                 );
             }
         } catch (final GridAccessException e) {

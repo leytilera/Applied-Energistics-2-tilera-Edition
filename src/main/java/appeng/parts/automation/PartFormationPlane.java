@@ -32,6 +32,7 @@ import appeng.api.parts.*;
 import appeng.api.storage.ICellContainer;
 import appeng.api.storage.IMEInventory;
 import appeng.api.storage.IMEInventoryHandler;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
@@ -427,7 +428,7 @@ public class PartFormationPlane extends PartUpgradeable
     }
 
     @Override
-    public List<IMEInventoryHandler> getCellArray(final StorageChannel channel) {
+    public List<IMEInventoryHandler> getCellArray(final IStorageChannel channel) {
         if (this.getProxy().isActive() && channel == StorageChannel.ITEMS) {
             final List<IMEInventoryHandler> Handler
                 = new ArrayList<IMEInventoryHandler>(1);

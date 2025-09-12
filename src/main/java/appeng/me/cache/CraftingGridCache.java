@@ -42,6 +42,7 @@ import appeng.api.networking.security.BaseActionSource;
 import appeng.api.networking.storage.IStorageGrid;
 import appeng.api.storage.ICellProvider;
 import appeng.api.storage.IMEInventoryHandler;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IAEStack;
@@ -322,7 +323,7 @@ public class CraftingGridCache implements ICraftingGrid, ICraftingProviderHelper
     }
 
     @Override
-    public List<IMEInventoryHandler> getCellArray(final StorageChannel channel) {
+    public List<IMEInventoryHandler> getCellArray(final IStorageChannel channel) {
         final List<IMEInventoryHandler> list = new ArrayList<IMEInventoryHandler>(1);
 
         if (channel == StorageChannel.ITEMS) {

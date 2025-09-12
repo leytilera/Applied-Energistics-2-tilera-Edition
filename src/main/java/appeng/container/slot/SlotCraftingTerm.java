@@ -26,6 +26,7 @@ import appeng.api.networking.energy.IEnergySource;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.IMEMonitor;
 import appeng.api.storage.IStorageMonitorable;
+import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import appeng.container.ContainerNull;
@@ -93,7 +94,7 @@ public class SlotCraftingTerm extends AppEngCraftingSlot {
             return;
         }
 
-        final IMEMonitor<IAEItemStack> inv = this.storage.getItemInventory();
+        final IMEMonitor<IAEItemStack> inv = this.storage.getInventory(StorageChannel.ITEMS);
         final int howManyPerCraft = this.getStack().stackSize;
         int maxTimesToCraft = 0;
 

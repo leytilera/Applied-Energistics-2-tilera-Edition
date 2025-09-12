@@ -21,6 +21,7 @@ package appeng.core.features.registries.entries;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.IExternalStorageHandler;
 import appeng.api.storage.IMEInventory;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.StorageChannel;
 import appeng.me.storage.MEMonitorIInventory;
 import appeng.util.InventoryAdaptor;
@@ -33,7 +34,7 @@ public class ExternalIInv implements IExternalStorageHandler {
     public boolean canHandle(
         final TileEntity te,
         final ForgeDirection d,
-        final StorageChannel channel,
+        final IStorageChannel channel,
         final BaseActionSource mySrc
     ) {
         return channel == StorageChannel.ITEMS && te instanceof IInventory;
@@ -43,7 +44,7 @@ public class ExternalIInv implements IExternalStorageHandler {
     public IMEInventory getInventory(
         final TileEntity te,
         final ForgeDirection d,
-        final StorageChannel channel,
+        final IStorageChannel channel,
         final BaseActionSource src
     ) {
         final InventoryAdaptor ad = InventoryAdaptor.getAdaptor(te, d);

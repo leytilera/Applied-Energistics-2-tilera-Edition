@@ -14,6 +14,7 @@ import appeng.api.networking.energy.IEnergyGrid;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.networking.security.MachineSource;
 import appeng.api.networking.storage.IStorageGrid;
+import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.util.WorldCoord;
 import appeng.core.sync.packets.PacketTransitionEffect;
@@ -138,7 +139,7 @@ public class TileTransitionPlane extends AENetworkTile implements IAEMultiBlock 
                         IStorageGrid storage = this.getProxy().getStorage();
                         IEnergyGrid energy = this.getProxy().getEnergy();
                         IAEItemStack overflow = Platform.poweredInsert(
-                            energy, storage.getItemInventory(), aeitem, this.mySrc
+                            energy, storage.getInventory(StorageChannel.ITEMS), aeitem, this.mySrc
                         );
                         if (overflow != null) {
                             this.buffer.add(overflow);
@@ -315,7 +316,7 @@ public class TileTransitionPlane extends AENetworkTile implements IAEMultiBlock 
                                     IEnergyGrid energy = this.getProxy().getEnergy();
                                     IAEItemStack overflow = Platform.poweredInsert(
                                         energy,
-                                        storage.getItemInventory(),
+                                        storage.getInventory(StorageChannel.ITEMS),
                                         aeitem,
                                         this.mySrc
                                     );

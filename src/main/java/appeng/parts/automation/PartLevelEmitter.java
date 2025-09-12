@@ -239,7 +239,7 @@ public class PartLevelEmitter extends PartUpgradeable
                 this.updateState();
 
                 // no more item stuff..
-                this.getProxy().getStorage().getItemInventory().removeListener(this);
+                this.getProxy().getStorage().getInventory(StorageChannel.ITEMS).removeListener(this);
             } catch (final GridAccessException e) {
                 // :P
             }
@@ -249,18 +249,18 @@ public class PartLevelEmitter extends PartUpgradeable
 
         try {
             if (this.getInstalledUpgrades(Upgrades.FUZZY) > 0 || myStack == null) {
-                this.getProxy().getStorage().getItemInventory().addListener(
+                this.getProxy().getStorage().getInventory(StorageChannel.ITEMS).addListener(
                     this, this.getProxy().getGrid()
                 );
             } else {
-                this.getProxy().getStorage().getItemInventory().removeListener(this);
+                this.getProxy().getStorage().getInventory(StorageChannel.ITEMS).removeListener(this);
 
                 if (this.myWatcher != null) {
                     this.myWatcher.add(myStack);
                 }
             }
 
-            this.updateReportingValue(this.getProxy().getStorage().getItemInventory());
+            this.updateReportingValue(this.getProxy().getStorage().getInventory(StorageChannel.ITEMS));
         } catch (final GridAccessException e) {
             // >.>
         }
@@ -350,7 +350,7 @@ public class PartLevelEmitter extends PartUpgradeable
     @Override
     public void onListUpdate() {
         try {
-            this.updateReportingValue(this.getProxy().getStorage().getItemInventory());
+            this.updateReportingValue(this.getProxy().getStorage().getInventory(StorageChannel.ITEMS));
         } catch (final GridAccessException e) {
             // ;P
         }

@@ -32,6 +32,7 @@ import appeng.api.parts.IPartCollisionHelper;
 import appeng.api.parts.IPartRenderHelper;
 import appeng.api.storage.IMEInventory;
 import appeng.api.storage.IMEMonitor;
+import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.client.texture.CableBusTextures;
 import appeng.core.AELog;
@@ -104,7 +105,7 @@ public class PartExportBus extends PartSharedItemBus implements ICraftingRequest
         try {
             final InventoryAdaptor destination = this.getHandler();
             final IMEMonitor<IAEItemStack> inv
-                = this.getProxy().getStorage().getItemInventory();
+                = this.getProxy().getStorage().getInventory(StorageChannel.ITEMS);
             final IEnergyGrid energy = this.getProxy().getEnergy();
             final ICraftingGrid cg = this.getProxy().getCrafting();
             final FuzzyMode fzMode

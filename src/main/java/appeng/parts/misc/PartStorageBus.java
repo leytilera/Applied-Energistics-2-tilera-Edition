@@ -540,7 +540,7 @@ public class PartStorageBus extends PartUpgradeable
     }
 
     @Override
-    public List<IMEInventoryHandler> getCellArray(final StorageChannel channel) {
+    public List<IMEInventoryHandler> getCellArray(final IStorageChannel channel) {
         if (channel == StorageChannel.ITEMS) {
             final IMEInventoryHandler out
                 = this.getProxy().isActive() ? this.getInternalHandler() : null;

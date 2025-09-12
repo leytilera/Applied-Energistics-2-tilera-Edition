@@ -24,6 +24,7 @@
 package appeng.api.networking.events;
 
 import appeng.api.storage.IMEMonitor;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.StorageChannel;
 
 /**
@@ -34,8 +35,14 @@ import appeng.api.storage.StorageChannel;
  */
 public class MENetworkStorageEvent extends MENetworkEvent {
     public final IMEMonitor monitor;
-    public final StorageChannel channel;
+    public final IStorageChannel channel;
 
+    public MENetworkStorageEvent(final IMEMonitor o, final IStorageChannel chan) {
+        this.monitor = o;
+        this.channel = chan;
+    }
+
+    @Deprecated
     public MENetworkStorageEvent(final IMEMonitor o, final StorageChannel chan) {
         this.monitor = o;
         this.channel = chan;

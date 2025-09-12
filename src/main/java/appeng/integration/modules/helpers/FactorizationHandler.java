@@ -21,6 +21,7 @@ package appeng.integration.modules.helpers;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.IExternalStorageHandler;
 import appeng.api.storage.IMEInventory;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.StorageChannel;
 import appeng.integration.modules.FZ;
 import appeng.me.storage.MEMonitorIInventory;
@@ -33,7 +34,7 @@ public class FactorizationHandler implements IExternalStorageHandler {
     public boolean canHandle(
         final TileEntity te,
         final ForgeDirection d,
-        final StorageChannel chan,
+        final IStorageChannel chan,
         final BaseActionSource mySrc
     ) {
         return chan == StorageChannel.ITEMS && FZ.instance.isBarrel(te);
@@ -43,7 +44,7 @@ public class FactorizationHandler implements IExternalStorageHandler {
     public IMEInventory getInventory(
         final TileEntity te,
         final ForgeDirection d,
-        final StorageChannel chan,
+        final IStorageChannel chan,
         final BaseActionSource src
     ) {
         if (chan == StorageChannel.ITEMS) {

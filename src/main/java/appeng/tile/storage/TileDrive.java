@@ -35,6 +35,7 @@ import appeng.api.networking.storage.IStorageGrid;
 import appeng.api.storage.ICellHandler;
 import appeng.api.storage.IMEInventory;
 import appeng.api.storage.IMEInventoryHandler;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.util.AECableType;
@@ -319,8 +320,8 @@ public class TileDrive extends AENetworkInvTile implements IChestOrDrive, IPrior
     }
 
     @Override
-    public List<IMEInventoryHandler> getCellArray(final StorageChannel channel) {
-        if (this.getProxy().isActive()) {
+    public List<IMEInventoryHandler> getCellArray(final IStorageChannel channel) {
+        if (this.getProxy().isActive() && channel instanceof StorageChannel) {
             this.updateState();
             return (List) (channel == StorageChannel.ITEMS ? this.items : this.fluids);
         }

@@ -122,16 +122,6 @@ public abstract class AbstractPartTerminal extends AbstractPartDisplay
     public GuiBridge getGui(final EntityPlayer player) {
         return GuiBridge.GUI_ME;
     }
-
-    @Override
-    public IMEMonitor<IAEItemStack> getItemInventory() {
-        return getInventory(StorageChannel.ITEMS);
-    }
-
-    @Override
-    public IMEMonitor<IAEFluidStack> getFluidInventory() {
-        return getInventory(StorageChannel.FLUIDS);
-    }
     
     @Override
     public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {

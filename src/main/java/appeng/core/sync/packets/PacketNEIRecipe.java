@@ -32,6 +32,7 @@ import appeng.api.networking.energy.IEnergyGrid;
 import appeng.api.networking.security.ISecurityGrid;
 import appeng.api.networking.storage.IStorageGrid;
 import appeng.api.storage.IMEMonitor;
+import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import appeng.container.ContainerNull;
@@ -138,7 +139,7 @@ public class PacketNEIRecipe extends AppEngPacket {
 
                         if (is != null) {
                             final IMEMonitor<IAEItemStack> storage
-                                = inv.getItemInventory();
+                                = inv.getInventory(StorageChannel.ITEMS);
                             final IItemList all = storage.getStorageList();
                             final IPartitionList<IAEItemStack> filter
                                 = ItemViewCell.createFilter(cct.getViewCells());

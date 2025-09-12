@@ -21,6 +21,7 @@ package appeng.integration.modules.helpers;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.IExternalStorageHandler;
 import appeng.api.storage.IMEInventory;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.StorageChannel;
 import appeng.integration.modules.DSU;
 import appeng.me.storage.MEMonitorIInventory;
@@ -33,7 +34,7 @@ public class MFRDSUHandler implements IExternalStorageHandler {
     public boolean canHandle(
         final TileEntity te,
         final ForgeDirection d,
-        final StorageChannel chan,
+        final IStorageChannel chan,
         final BaseActionSource mySrc
     ) {
         return chan == StorageChannel.ITEMS && DSU.instance.isDSU(te);
@@ -43,7 +44,7 @@ public class MFRDSUHandler implements IExternalStorageHandler {
     public IMEInventory getInventory(
         final TileEntity te,
         final ForgeDirection d,
-        final StorageChannel chan,
+        final IStorageChannel chan,
         final BaseActionSource src
     ) {
         if (chan == StorageChannel.ITEMS) {

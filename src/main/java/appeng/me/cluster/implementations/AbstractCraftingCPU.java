@@ -28,6 +28,7 @@ import appeng.api.networking.security.BaseActionSource;
 import appeng.api.networking.storage.IStorageGrid;
 import appeng.api.storage.IMEInventory;
 import appeng.api.storage.IMEMonitorHandlerReceiver;
+import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IAEStack;
 import appeng.api.storage.data.IItemList;
@@ -715,7 +716,7 @@ public abstract class AbstractCraftingCPU implements ICraftingCPU {
         }
 
         final IStorageGrid sg = g.getCache(IStorageGrid.class);
-        final IMEInventory<IAEItemStack> ii = sg.getItemInventory();
+        final IMEInventory<IAEItemStack> ii = sg.getInventory(StorageChannel.ITEMS);
 
         for (IAEItemStack is : this.inventory.getItemList()) {
             is = this.inventory.extractItems(
@@ -792,7 +793,7 @@ public abstract class AbstractCraftingCPU implements ICraftingCPU {
         }
 
         final IStorageGrid sg = g.getCache(IStorageGrid.class);
-        final IMEInventory<IAEItemStack> storage = sg.getItemInventory();
+        final IMEInventory<IAEItemStack> storage = sg.getInventory(StorageChannel.ITEMS);
         final MECraftingInventory ci
             = new MECraftingInventory(storage, true, false, false);
 

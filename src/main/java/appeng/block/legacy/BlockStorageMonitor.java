@@ -4,6 +4,7 @@ import java.util.EnumSet;
 
 import appeng.api.networking.security.PlayerSource;
 import appeng.api.networking.storage.IStorageGrid;
+import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.block.AEBaseBlock;
 import appeng.client.render.BaseBlockRender;
@@ -99,7 +100,7 @@ public class BlockStorageMonitor extends BlockLegacyDisplay {
 
                     IAEItemStack remaining = Api.INSTANCE.storage().poweredInsert(
                         tile.getProxy().getEnergy(),
-                        storage.getItemInventory(),
+                        storage.getInventory(StorageChannel.ITEMS),
                         AEItemStack.create(player.getHeldItem()),
                         new PlayerSource(player, tile)
                     );
@@ -129,7 +130,7 @@ public class BlockStorageMonitor extends BlockLegacyDisplay {
 
                         IAEItemStack remaining = Api.INSTANCE.storage().poweredInsert(
                             tile.getProxy().getEnergy(),
-                            storage.getItemInventory(),
+                            storage.getInventory(StorageChannel.ITEMS),
                             AEItemStack.create(it),
                             new PlayerSource(player, tile)
                         );
@@ -159,7 +160,7 @@ public class BlockStorageMonitor extends BlockLegacyDisplay {
 
                     IAEItemStack extracted = Api.INSTANCE.storage().poweredExtraction(
                         tile.getProxy().getEnergy(),
-                        storage.getItemInventory(),
+                        storage.getInventory(StorageChannel.ITEMS),
                         request,
                         new PlayerSource(player, tile)
                     );

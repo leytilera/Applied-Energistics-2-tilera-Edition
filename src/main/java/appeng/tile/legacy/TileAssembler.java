@@ -12,6 +12,7 @@ import appeng.api.networking.crafting.ICraftingProviderHelper;
 import appeng.api.networking.events.MENetworkCraftingPatternChange;
 import appeng.api.networking.security.MachineSource;
 import appeng.api.storage.IMEMonitor;
+import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.util.WorldCoord;
 import appeng.block.legacy.BlockAssemblerHeatVent;
@@ -532,7 +533,7 @@ public class TileAssembler extends AENetworkTile
             if (out != null) {
                 try {
                     IMEMonitor<IAEItemStack> inv
-                        = this.getProxy().getStorage().getItemInventory();
+                        = this.getProxy().getStorage().getInventory(StorageChannel.ITEMS);
 
                     inv.injectItems(
                         AEItemStack.create(out),

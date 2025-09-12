@@ -24,6 +24,7 @@ import java.util.List;
 import appeng.api.networking.energy.IEnergySource;
 import appeng.api.networking.security.PlayerSource;
 import appeng.api.storage.IMEMonitor;
+import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.client.texture.CableBusTextures;
 import appeng.helpers.Reflected;
@@ -82,7 +83,7 @@ public class PartConversionMonitor extends AbstractPartMonitor {
 
                 final IEnergySource energy = this.getProxy().getEnergy();
                 final IMEMonitor<IAEItemStack> cell
-                    = this.getProxy().getStorage().getItemInventory();
+                    = this.getProxy().getStorage().getInventory(StorageChannel.ITEMS);
                 final IAEItemStack input = AEItemStack.create(item);
 
                 if (ModeB) {
@@ -128,7 +129,7 @@ public class PartConversionMonitor extends AbstractPartMonitor {
 
                 final IEnergySource energy = this.getProxy().getEnergy();
                 final IMEMonitor<IAEItemStack> cell
-                    = this.getProxy().getStorage().getItemInventory();
+                    = this.getProxy().getStorage().getInventory(StorageChannel.ITEMS);
 
                 final ItemStack is = input.getItemStack();
                 input.setStackSize(is.getMaxStackSize());

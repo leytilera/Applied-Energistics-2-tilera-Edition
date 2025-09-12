@@ -7,7 +7,9 @@ import appeng.api.networking.GridFlags;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.networking.storage.IStackWatcher;
 import appeng.api.networking.storage.IStackWatcherHost;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IAEStack;
 import appeng.api.storage.data.IItemList;
@@ -123,7 +125,7 @@ public class TileStorageMonitor extends TileLegacyDisplay implements IStackWatch
             try {
                 IAEItemStack meitem = this.getProxy()
                                           .getStorage()
-                                          .getItemInventory()
+                                          .getInventory((IItemStorageChannel)(IStorageChannel)StorageChannel.ITEMS)
                                           .getStorageList()
                                           .findPrecise(this.myItem);
 

@@ -18,8 +18,10 @@
 
 package appeng.core.features.registries.entries;
 
+import appeng.api.AEApi;
 import appeng.api.implementations.tiles.IChestOrDrive;
 import appeng.api.storage.*;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.client.texture.ExtraBlockTextures;
 import appeng.core.sync.GuiBridge;
 import appeng.items.storage.ItemCreativeStorageCell;
@@ -38,16 +40,10 @@ public class CreativeCellHandler implements ICellHandler {
 
     @Override
     public IMEInventoryHandler getCellInventory(
-        final ItemStack is, final ISaveProvider container, final StorageChannel channel
-    ) {
-        return getCellInventory(is, container, (IStorageChannel)channel);
-    }
-
-    @Override
-    public IMEInventoryHandler getCellInventory(
         final ItemStack is, final ISaveProvider container, final IStorageChannel channel
     ) {
-        if (channel == StorageChannel.ITEMS && is != null
+        IItemStorageChannel items = AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class);
+        if (channel == items && is != null
             && is.getItem() instanceof ItemCreativeStorageCell) {
             return CreativeCellInventory.getCell(is);
         }
@@ -76,7 +72,7 @@ public class CreativeCellHandler implements ICellHandler {
         final ICellHandler cellHandler,
         final IMEInventoryHandler inv,
         final ItemStack is,
-        final StorageChannel chan
+        final IStorageChannel chan
     ) {
         Platform.openGUI(player, (TileEntity) chest, chest.getUp(), GuiBridge.GUI_ME);
     }

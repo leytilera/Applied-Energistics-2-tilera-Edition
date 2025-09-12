@@ -22,9 +22,12 @@ import appeng.api.config.*;
 import appeng.api.implementations.guiobjects.IPortableCell;
 import appeng.api.implementations.items.IAEItemPowerStorage;
 import appeng.api.storage.IMEMonitor;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.MEMonitorHandler;
+import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEFluidStack;
 import appeng.api.storage.data.IAEItemStack;
+import appeng.api.storage.data.IAEStack;
 import appeng.api.util.IConfigManager;
 import appeng.container.interfaces.IInventorySlotAware;
 import appeng.me.storage.CellInventory;
@@ -73,12 +76,10 @@ public class PortableCellViewer
     }
 
     @Override
-    public IMEMonitor<IAEItemStack> getItemInventory() {
-        return this;
-    }
-
-    @Override
-    public IMEMonitor<IAEFluidStack> getFluidInventory() {
+    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
+        if (channel == StorageChannel.ITEMS) {
+            return (IMEMonitor<T>) this;
+        }
         return null;
     }
 
