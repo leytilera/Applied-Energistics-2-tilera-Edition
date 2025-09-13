@@ -25,7 +25,6 @@ package appeng.api.networking.events;
 
 import appeng.api.storage.IMEMonitor;
 import appeng.api.storage.IStorageChannel;
-import appeng.api.storage.StorageChannel;
 
 /**
  * posted by the network when the networks Storage Changes, you can use the currentItems
@@ -38,12 +37,6 @@ public class MENetworkStorageEvent extends MENetworkEvent {
     public final IStorageChannel channel;
 
     public MENetworkStorageEvent(final IMEMonitor o, final IStorageChannel chan) {
-        this.monitor = o;
-        this.channel = chan;
-    }
-
-    @Deprecated
-    public MENetworkStorageEvent(final IMEMonitor o, final StorageChannel chan) {
         this.monitor = o;
         this.channel = chan;
     }

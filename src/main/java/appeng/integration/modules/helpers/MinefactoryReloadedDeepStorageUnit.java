@@ -21,6 +21,7 @@ package appeng.integration.modules.helpers;
 import appeng.api.config.Actionable;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.IMEInventory;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
@@ -114,7 +115,7 @@ public class MinefactoryReloadedDeepStorageUnit implements IMEInventory<IAEItemS
     }
 
     @Override
-    public StorageChannel getChannel() {
+    public IStorageChannel getStorageChannel() {
         return StorageChannel.ITEMS;
     }
 }

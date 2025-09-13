@@ -215,9 +215,9 @@ public class WirelessTerminalGuiObject
     }
 
     @Override
-    public StorageChannel getChannel() {
+    public IStorageChannel getStorageChannel() {
         if (this.itemStorage != null) {
-            return this.itemStorage.getChannel();
+            return this.itemStorage.getStorageChannel();
         }
         return StorageChannel.ITEMS;
     }

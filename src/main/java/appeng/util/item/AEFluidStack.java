@@ -247,11 +247,6 @@ public final class AEFluidStack
     }
 
     @Override
-    public StorageChannel getChannel() {
-        return StorageChannel.FLUIDS;
-    }
-
-    @Override
     public IStorageChannel<?> getStorageChannel() {
         return StorageChannel.FLUIDS;
     }

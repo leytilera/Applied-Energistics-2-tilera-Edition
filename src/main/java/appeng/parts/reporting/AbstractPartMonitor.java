@@ -26,6 +26,7 @@ import appeng.api.networking.storage.IStackWatcher;
 import appeng.api.networking.storage.IStackWatcherHost;
 import appeng.api.parts.IPartRenderHelper;
 import appeng.api.storage.IMEMonitor;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IAEStack;
@@ -365,7 +366,7 @@ public abstract class AbstractPartMonitor
         final IAEStack fullStack,
         final IAEStack diffStack,
         final BaseActionSource src,
-        final StorageChannel chan
+        final IStorageChannel chan
     ) {
         if (this.configuredItem != null) {
             if (fullStack == null) {

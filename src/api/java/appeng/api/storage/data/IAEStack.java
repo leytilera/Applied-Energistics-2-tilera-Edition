@@ -27,7 +27,6 @@ import java.io.IOException;
 
 import appeng.api.config.FuzzyMode;
 import appeng.api.storage.IStorageChannel;
-import appeng.api.storage.StorageChannel;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -191,10 +190,5 @@ public interface IAEStack<StackType extends IAEStack> {
      */
     boolean isFluid();
 
-    @Deprecated
-    StorageChannel getChannel();
-
-    default IStorageChannel<?> getStorageChannel() {
-        return getChannel();
-    }
+    IStorageChannel<?> getStorageChannel();
 }

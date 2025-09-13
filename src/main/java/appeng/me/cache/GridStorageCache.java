@@ -248,7 +248,7 @@ public class GridStorageCache implements IStorageGrid {
 
     @Override
     public void postAlterationOfStoredItems(
-        final StorageChannel chan,
+        final IStorageChannel chan,
         final Iterable<? extends IAEStack> input,
         final BaseActionSource src
     ) {

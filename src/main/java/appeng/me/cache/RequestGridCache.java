@@ -162,7 +162,7 @@ public class RequestGridCache
     }
 
     @Override
-    public StorageChannel getChannel() {
+    public IStorageChannel getStorageChannel() {
         return StorageChannel.ITEMS;
     }
 

@@ -38,7 +38,7 @@ public class DriveWatcher<T extends IAEStack<T>> extends MEInventoryHandler<T> {
         final ICellHandler han,
         final IChestOrDrive cod
     ) {
-        super(i, i.getChannel());
+        super(i, i.getStorageChannel());
         this.is = is;
         this.handler = han;
         this.cord = cod;

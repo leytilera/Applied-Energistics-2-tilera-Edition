@@ -115,13 +115,13 @@ public class TileDrive extends AENetworkInvTile implements IChestOrDrive, IPrior
             return 0;
         }
 
-        if (handler.getChannel() == StorageChannel.ITEMS) {
+        if (handler.getStorageChannel() == StorageChannel.ITEMS) {
             if (ch != null) {
                 return ch.getStatusForCell(cell, handler.getInternal());
             }
         }
 
-        if (handler.getChannel() == StorageChannel.FLUIDS) {
+        if (handler.getStorageChannel() == StorageChannel.FLUIDS) {
             if (ch != null) {
                 return ch.getStatusForCell(cell, handler.getInternal());
             }

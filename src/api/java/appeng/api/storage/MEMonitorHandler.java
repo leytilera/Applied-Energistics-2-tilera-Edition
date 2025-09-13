@@ -51,19 +51,11 @@ public class MEMonitorHandler<StackType extends IAEStack>
 
     public MEMonitorHandler(final IMEInventoryHandler<StackType> t) {
         this.internalHandler = t;
-        this.cachedList = (IItemList<StackType>) t.getChannel().createList();
+        this.cachedList = (IItemList<StackType>) t.getStorageChannel().createList();
     }
 
     public MEMonitorHandler(
         final IMEInventoryHandler<StackType> t, final IStorageChannel chan
-    ) {
-        this.internalHandler = t;
-        this.cachedList = (IItemList<StackType>) chan.createList();
-    }
-
-    @Deprecated
-    public MEMonitorHandler(
-        final IMEInventoryHandler<StackType> t, final StorageChannel chan
     ) {
         this.internalHandler = t;
         this.cachedList = (IItemList<StackType>) chan.createList();
@@ -155,12 +147,6 @@ public class MEMonitorHandler<StackType extends IAEStack>
         return this.monitorDifference(
             request.copy(), this.getHandler().extractItems(request, mode, src), true, src
         );
-    }
-
-    @Override
-    @Deprecated
-    public StorageChannel getChannel() {
-        return StorageChannel.get(getStorageChannel());
     }
 
     @Override

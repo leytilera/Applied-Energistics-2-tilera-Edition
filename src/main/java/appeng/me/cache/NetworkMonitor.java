@@ -104,8 +104,8 @@ public class NetworkMonitor<T extends IAEStack<T>> implements IMEMonitor<T> {
     }
 
     @Override
-    public StorageChannel getChannel() {
-        return this.getHandler().getChannel();
+    public IStorageChannel getStorageChannel() {
+        return this.getHandler().getStorageChannel();
     }
 
     @Override
@@ -257,7 +257,7 @@ public class NetworkMonitor<T extends IAEStack<T>> implements IMEMonitor<T> {
                             fullStack,
                             difference,
                             src,
-                            this.getChannel()
+                            this.getStorageChannel()
                         );
                     }
 

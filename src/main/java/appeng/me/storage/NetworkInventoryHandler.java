@@ -266,11 +266,6 @@ public class NetworkInventoryHandler<T extends IAEStack<T>>
     }
 
     @Override
-    public StorageChannel getChannel() {
-        return StorageChannel.get(getStorageChannel());
-    }
-
-    @Override
     public IStorageChannel<?> getStorageChannel() {
         return this.myChannel;
     }

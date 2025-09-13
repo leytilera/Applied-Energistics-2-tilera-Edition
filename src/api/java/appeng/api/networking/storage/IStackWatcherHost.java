@@ -25,7 +25,6 @@ package appeng.api.networking.storage;
 
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.IStorageChannel;
-import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEStack;
 import appeng.api.storage.data.IItemList;
 
@@ -39,15 +38,6 @@ public interface IStackWatcherHost {
      */
     void updateWatcher(IStackWatcher newWatcher);
 
-    @Deprecated
-    void onStackChange(
-        IItemList o,
-        IAEStack fullStack,
-        IAEStack diffStack,
-        BaseActionSource src,
-        StorageChannel chan
-    );
-
     /**
      * Called when a watched item changes amounts.
      *
@@ -57,13 +47,11 @@ public interface IStackWatcherHost {
      * @param src       action source
      * @param chan      storage channel
      */
-    default void onStackChange(
+    void onStackChange(
         IItemList o,
         IAEStack fullStack,
         IAEStack diffStack,
         BaseActionSource src,
         IStorageChannel chan
-    ) {
-        StorageChannel.call(chan, (c) -> onStackChange(o, fullStack, diffStack, src, c));
-    }
+    );
 }

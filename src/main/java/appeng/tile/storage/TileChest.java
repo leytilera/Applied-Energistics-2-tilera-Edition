@@ -202,11 +202,11 @@ public class TileChest extends AENetworkPowerTile
             return null;
         }
 
-        final MEInventoryHandler ih = new MEInventoryHandler(h, h.getChannel());
+        final MEInventoryHandler ih = new MEInventoryHandler(h, h.getStorageChannel());
         ih.setPriority(this.priority);
 
         final MEMonitorHandler<StackType> g = new ChestMonitorHandler<StackType>(ih);
-        g.addListener(new ChestNetNotifier(h.getChannel()), g);
+        g.addListener(new ChestNetNotifier(h.getStorageChannel()), g);
 
         return g;
     }
@@ -640,7 +640,7 @@ public class TileChest extends AENetworkPowerTile
     public FluidTankInfo[] getTankInfo(final ForgeDirection from) {
         try {
             final IMEInventoryHandler h = this.getHandler(StorageChannel.FLUIDS);
-            if (h.getChannel() == StorageChannel.FLUIDS) {
+            if (h.getStorageChannel() == StorageChannel.FLUIDS) {
                 return new FluidTankInfo[] { new FluidTankInfo(null, 1) }; // eh?
             }
         } catch (final ChestNoHandler ignored) {}
@@ -732,9 +732,9 @@ public class TileChest extends AENetworkPowerTile
 
     protected class ChestNetNotifier<T extends IAEStack<T>>
         implements IMEMonitorHandlerReceiver<T> {
-        protected final StorageChannel chan;
+        protected final IStorageChannel chan;
 
-        public ChestNetNotifier(final StorageChannel chan) {
+        public ChestNetNotifier(final IStorageChannel chan) {
             this.chan = chan;
         }
 

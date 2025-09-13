@@ -23,9 +23,6 @@
 
 package appeng.api.storage;
 
-import java.util.function.Consumer;
-import java.util.function.Function;
-
 import appeng.api.AEApi;
 import appeng.api.storage.data.IAEFluidStack;
 import appeng.api.storage.data.IAEItemStack;
@@ -70,19 +67,6 @@ public enum StorageChannel implements IStorageChannel {
         } else {
             return null;
         }
-    }
-
-    public static void call(IStorageChannel channel, Consumer<StorageChannel> action) {
-        if (channel instanceof StorageChannel) {
-            action.accept((StorageChannel)channel);
-        }
-    }
-
-    public static <T> T call(IStorageChannel channel, Function<StorageChannel, T> action, T def) {
-        if (channel instanceof StorageChannel) {
-            return action.apply((StorageChannel)channel);
-        }
-        return def;
     }
 
 }

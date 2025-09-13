@@ -378,11 +378,6 @@ public final class AEItemStack
     }
 
     @Override
-    public StorageChannel getChannel() {
-        return StorageChannel.ITEMS;
-    }
-
-    @Override
     public IStorageChannel getStorageChannel() {
         return StorageChannel.ITEMS;
     }

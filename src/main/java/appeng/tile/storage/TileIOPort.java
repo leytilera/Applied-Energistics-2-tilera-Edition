@@ -414,7 +414,7 @@ public class TileIOPort extends AENetworkInvTile
         if (src instanceof IMEMonitor) {
             myList = ((IMEMonitor) src).getStorageList();
         } else {
-            myList = src.getAvailableItems(src.getChannel().createList());
+            myList = src.getAvailableItems(src.getStorageChannel().createList());
         }
 
         boolean didStuff;
@@ -509,7 +509,7 @@ public class TileIOPort extends AENetworkInvTile
         if (src instanceof IMEMonitor) {
             myList = ((IMEMonitor) src).getStorageList();
         } else {
-            myList = src.getAvailableItems(src.getChannel().createList());
+            myList = src.getAvailableItems(src.getStorageChannel().createList());
         }
 
         if (fm == FullnessMode.EMPTY) {

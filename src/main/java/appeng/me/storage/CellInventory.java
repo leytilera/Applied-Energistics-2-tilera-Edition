@@ -424,7 +424,7 @@ public class CellInventory implements ICellInventory {
     }
 
     @Override
-    public StorageChannel getChannel() {
+    public IStorageChannel getStorageChannel() {
         return StorageChannel.ITEMS;
     }
 
