@@ -20,6 +20,7 @@ package appeng.parts.automation;
 
 import java.util.List;
 
+import appeng.api.AEApi;
 import appeng.api.config.Actionable;
 import appeng.api.config.PowerMultiplier;
 import appeng.api.config.YesNo;
@@ -38,8 +39,6 @@ import appeng.api.parts.IPart;
 import appeng.api.parts.IPartCollisionHelper;
 import appeng.api.parts.IPartHost;
 import appeng.api.parts.IPartRenderHelper;
-import appeng.api.storage.IStorageChannel;
-import appeng.api.storage.StorageChannel;
 import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.client.texture.CableBusTextures;
@@ -63,7 +62,6 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
@@ -413,7 +411,7 @@ public class PartAnnihilationPlane
             final IStorageGrid storage = this.getProxy().getStorage();
             final IEnergyGrid energy = this.getProxy().getEnergy();
             final IAEItemStack overflow = Platform.poweredInsert(
-                energy, storage.getInventory(StorageChannel.ITEMS), itemToStore, this.mySrc
+                energy, storage.getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)), itemToStore, this.mySrc
             );
 
             this.isAccepting = overflow == null;
@@ -652,7 +650,7 @@ public class PartAnnihilationPlane
 
             for (final ItemStack itemStack : itemStacks) {
                 final IAEItemStack itemToTest = AEItemStack.create(itemStack);
-                final IAEItemStack overflow = storage.getInventory((IItemStorageChannel)(IStorageChannel)StorageChannel.ITEMS).injectItems(
+                final IAEItemStack overflow = storage.getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)).injectItems(
                     itemToTest, Actionable.SIMULATE, this.mySrc
                 );
                 if (overflow == null

@@ -2,6 +2,7 @@ package appeng.tile.legacy;
 
 import java.util.ArrayList;
 
+import appeng.api.AEApi;
 import appeng.api.config.Actionable;
 import appeng.api.implementations.ICraftingPatternItem;
 import appeng.api.networking.GridFlags;
@@ -12,7 +13,7 @@ import appeng.api.networking.crafting.ICraftingProviderHelper;
 import appeng.api.networking.events.MENetworkCraftingPatternChange;
 import appeng.api.networking.security.MachineSource;
 import appeng.api.storage.IMEMonitor;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.util.WorldCoord;
 import appeng.block.legacy.BlockAssemblerHeatVent;
@@ -533,7 +534,7 @@ public class TileAssembler extends AENetworkTile
             if (out != null) {
                 try {
                     IMEMonitor<IAEItemStack> inv
-                        = this.getProxy().getStorage().getInventory(StorageChannel.ITEMS);
+                        = this.getProxy().getStorage().getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class));
 
                     inv.injectItems(
                         AEItemStack.create(out),

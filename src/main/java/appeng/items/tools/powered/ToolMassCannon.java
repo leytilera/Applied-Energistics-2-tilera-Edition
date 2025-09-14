@@ -30,7 +30,7 @@ import appeng.api.networking.security.PlayerSource;
 import appeng.api.storage.ICellInventory;
 import appeng.api.storage.ICellInventoryHandler;
 import appeng.api.storage.IMEInventory;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IAEStack;
 import appeng.api.storage.data.IItemList;
@@ -95,7 +95,7 @@ public class ToolMassCannon extends AEBasePoweredItem implements IStorageCell {
 
         final IMEInventory<IAEItemStack> cdi
             = AEApi.instance().registries().cell().getCellInventory(
-                stack, null, StorageChannel.ITEMS
+                stack, null, AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)
             );
 
         if (cdi instanceof CellInventoryHandler) {
@@ -126,7 +126,7 @@ public class ToolMassCannon extends AEBasePoweredItem implements IStorageCell {
 
             final IMEInventory inv
                 = AEApi.instance().registries().cell().getCellInventory(
-                    item, null, StorageChannel.ITEMS
+                    item, null, AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)
                 );
             if (inv != null) {
                 final IItemList itemList

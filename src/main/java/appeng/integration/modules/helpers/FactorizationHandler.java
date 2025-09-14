@@ -18,11 +18,12 @@
 
 package appeng.integration.modules.helpers;
 
+import appeng.api.AEApi;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.IExternalStorageHandler;
 import appeng.api.storage.IMEInventory;
 import appeng.api.storage.IStorageChannel;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.integration.modules.FZ;
 import appeng.me.storage.MEMonitorIInventory;
 import appeng.util.inv.IMEAdaptor;
@@ -37,7 +38,7 @@ public class FactorizationHandler implements IExternalStorageHandler {
         final IStorageChannel chan,
         final BaseActionSource mySrc
     ) {
-        return chan == StorageChannel.ITEMS && FZ.instance.isBarrel(te);
+        return chan == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class) && FZ.instance.isBarrel(te);
     }
 
     @Override
@@ -47,7 +48,7 @@ public class FactorizationHandler implements IExternalStorageHandler {
         final IStorageChannel chan,
         final BaseActionSource src
     ) {
-        if (chan == StorageChannel.ITEMS) {
+        if (chan == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)) {
             return new MEMonitorIInventory(
                 new IMEAdaptor(FZ.instance.getFactorizationBarrel(te), src)
             );

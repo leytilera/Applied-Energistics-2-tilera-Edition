@@ -41,8 +41,7 @@ import appeng.api.storage.IMEMonitor;
 import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.ITerminalHost;
 import appeng.api.storage.MEMonitorHandler;
-import appeng.api.storage.StorageChannel;
-import appeng.api.storage.data.IAEFluidStack;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IAEStack;
 import appeng.api.util.AECableType;
@@ -251,7 +250,7 @@ public class TileSecurity extends AENetworkTile
 
     @Override
     public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
-        if (channel == StorageChannel.ITEMS) {
+        if (channel == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)) {
             return (IMEMonitor<T>) this.securityMonitor;
         }
         return null;

@@ -18,13 +18,14 @@
 
 package appeng.me.storage;
 
+import appeng.api.AEApi;
 import appeng.api.implementations.tiles.ITileStorageMonitorable;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.IExternalStorageHandler;
 import appeng.api.storage.IMEInventory;
 import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.IStorageMonitorable;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.tile.misc.TileCondenser;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -37,7 +38,7 @@ public class AEExternalHandler implements IExternalStorageHandler {
         final IStorageChannel channel,
         final BaseActionSource mySrc
     ) {
-        if (channel == StorageChannel.ITEMS && te instanceof ITileStorageMonitorable) {
+        if (channel == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class) && te instanceof ITileStorageMonitorable) {
             return ((ITileStorageMonitorable) te).getMonitorable(d, mySrc) != null;
         }
 
@@ -52,7 +53,7 @@ public class AEExternalHandler implements IExternalStorageHandler {
         final BaseActionSource src
     ) {
         if (te instanceof TileCondenser) {
-            if (channel == StorageChannel.ITEMS) {
+            if (channel == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)) {
                 return new VoidItemInventory((TileCondenser) te);
             } else {
                 return new VoidFluidInventory((TileCondenser) te);

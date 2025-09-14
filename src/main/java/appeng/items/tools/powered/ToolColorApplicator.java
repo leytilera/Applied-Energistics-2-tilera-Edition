@@ -30,7 +30,7 @@ import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.ICellInventory;
 import appeng.api.storage.ICellInventoryHandler;
 import appeng.api.storage.IMEInventory;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import appeng.api.util.AEColor;
@@ -119,7 +119,7 @@ public class ToolColorApplicator extends AEBasePoweredItem
 
         final IMEInventory<IAEItemStack> inv
             = AEApi.instance().registries().cell().getCellInventory(
-                is, null, StorageChannel.ITEMS
+                is, null, AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)
             );
         if (inv != null) {
             final IAEItemStack option = inv.extractItems(
@@ -276,7 +276,7 @@ public class ToolColorApplicator extends AEBasePoweredItem
 
         final IMEInventory<IAEItemStack> inv
             = AEApi.instance().registries().cell().getCellInventory(
-                is, null, StorageChannel.ITEMS
+                is, null, AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)
             );
         if (inv != null) {
             final IItemList<IAEItemStack> itemList
@@ -431,7 +431,7 @@ public class ToolColorApplicator extends AEBasePoweredItem
 
         final IMEInventory<IAEItemStack> cdi
             = AEApi.instance().registries().cell().getCellInventory(
-                stack, null, StorageChannel.ITEMS
+                stack, null, AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)
             );
 
         if (cdi instanceof CellInventoryHandler) {

@@ -18,11 +18,12 @@
 
 package appeng.integration.modules.BCHelpers;
 
+import appeng.api.AEApi;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.IExternalStorageHandler;
 import appeng.api.storage.IMEInventory;
 import appeng.api.storage.IStorageChannel;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.integration.IntegrationRegistry;
 import appeng.integration.IntegrationType;
 import appeng.integration.abstraction.IBuildCraftTransport;
@@ -42,7 +43,7 @@ public class BCPipeHandler implements IExternalStorageHandler {
             ) IntegrationRegistry.INSTANCE.getInstance(IntegrationType.BuildCraftTransport
             );
 
-            return chan == StorageChannel.ITEMS && bc.isPipe(te, d);
+            return chan == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class) && bc.isPipe(te, d);
         }
 
         return false;
@@ -55,7 +56,7 @@ public class BCPipeHandler implements IExternalStorageHandler {
         final IStorageChannel chan,
         final BaseActionSource src
     ) {
-        if (chan == StorageChannel.ITEMS) {
+        if (chan == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)) {
             return new BCPipeInventory(te, d);
         }
         return null;

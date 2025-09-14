@@ -31,7 +31,7 @@ import appeng.api.parts.IPartCollisionHelper;
 import appeng.api.parts.IPartRenderHelper;
 import appeng.api.storage.IMEInventory;
 import appeng.api.storage.IMEMonitor;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.client.texture.CableBusTextures;
 import appeng.core.settings.TickRates;
@@ -221,7 +221,7 @@ public class PartImportBus extends PartSharedItemBus implements IInventoryDestin
                 );
 
                 final IMEMonitor<IAEItemStack> inv
-                    = this.getProxy().getStorage().getInventory(StorageChannel.ITEMS);
+                    = this.getProxy().getStorage().getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class));
                 final IEnergyGrid energy = this.getProxy().getEnergy();
 
                 boolean Configured = false;

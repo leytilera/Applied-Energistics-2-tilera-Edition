@@ -28,6 +28,7 @@ import appeng.api.exceptions.AppEngException;
 import appeng.api.implementations.items.IStorageCell;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.*;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import appeng.core.AEConfig;
@@ -425,7 +426,7 @@ public class CellInventory implements ICellInventory {
 
     @Override
     public IStorageChannel getStorageChannel() {
-        return StorageChannel.ITEMS;
+        return AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class);
     }
 
     @Override

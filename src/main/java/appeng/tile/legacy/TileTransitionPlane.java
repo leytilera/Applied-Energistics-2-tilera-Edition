@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import appeng.api.AEApi;
 import appeng.api.config.Actionable;
 import appeng.api.config.PowerMultiplier;
 import appeng.api.networking.GridFlags;
@@ -14,9 +15,8 @@ import appeng.api.networking.energy.IEnergyGrid;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.networking.security.MachineSource;
 import appeng.api.networking.storage.IStorageGrid;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
-import appeng.api.util.WorldCoord;
 import appeng.core.sync.packets.PacketTransitionEffect;
 import appeng.me.GridAccessException;
 import appeng.me.cluster.IAECluster;
@@ -139,7 +139,7 @@ public class TileTransitionPlane extends AENetworkTile implements IAEMultiBlock 
                         IStorageGrid storage = this.getProxy().getStorage();
                         IEnergyGrid energy = this.getProxy().getEnergy();
                         IAEItemStack overflow = Platform.poweredInsert(
-                            energy, storage.getInventory(StorageChannel.ITEMS), aeitem, this.mySrc
+                            energy, storage.getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)), aeitem, this.mySrc
                         );
                         if (overflow != null) {
                             this.buffer.add(overflow);
@@ -316,7 +316,7 @@ public class TileTransitionPlane extends AENetworkTile implements IAEMultiBlock 
                                     IEnergyGrid energy = this.getProxy().getEnergy();
                                     IAEItemStack overflow = Platform.poweredInsert(
                                         energy,
-                                        storage.getInventory(StorageChannel.ITEMS),
+                                        storage.getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)),
                                         aeitem,
                                         this.mySrc
                                     );

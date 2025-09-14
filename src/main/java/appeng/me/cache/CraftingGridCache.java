@@ -25,6 +25,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 
+import appeng.api.AEApi;
 import appeng.api.config.AccessRestriction;
 import appeng.api.config.Actionable;
 import appeng.api.networking.IControllerCache;
@@ -43,7 +44,7 @@ import appeng.api.networking.storage.IStorageGrid;
 import appeng.api.storage.ICellProvider;
 import appeng.api.storage.IMEInventoryHandler;
 import appeng.api.storage.IStorageChannel;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IAEStack;
 import appeng.api.storage.data.IItemList;
@@ -219,7 +220,7 @@ public class CraftingGridCache implements ICraftingGrid, ICraftingProviderHelper
 
         // update the stuff that was in the list...
         this.storageGrid.postAlterationOfStoredItems(
-            StorageChannel.ITEMS, oldItems.keySet(), new BaseActionSource()
+            AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class), oldItems.keySet(), new BaseActionSource()
         );
 
         // re-create list..
@@ -256,7 +257,7 @@ public class CraftingGridCache implements ICraftingGrid, ICraftingProviderHelper
         }
 
         this.storageGrid.postAlterationOfStoredItems(
-            StorageChannel.ITEMS, this.craftableItems.keySet(), new BaseActionSource()
+            AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class), this.craftableItems.keySet(), new BaseActionSource()
         );
     }
 
@@ -326,7 +327,7 @@ public class CraftingGridCache implements ICraftingGrid, ICraftingProviderHelper
     public List<IMEInventoryHandler> getCellArray(final IStorageChannel channel) {
         final List<IMEInventoryHandler> list = new ArrayList<IMEInventoryHandler>(1);
 
-        if (channel == StorageChannel.ITEMS) {
+        if (channel == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)) {
             list.add(this);
         }
 
@@ -402,7 +403,7 @@ public class CraftingGridCache implements ICraftingGrid, ICraftingProviderHelper
 
     @Override
     public IStorageChannel getStorageChannel() {
-        return StorageChannel.ITEMS;
+        return AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class);
     }
 
     @Override

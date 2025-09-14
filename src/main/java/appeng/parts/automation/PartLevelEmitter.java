@@ -21,6 +21,7 @@ package appeng.parts.automation;
 import java.util.Collection;
 import java.util.Random;
 
+import appeng.api.AEApi;
 import appeng.api.config.*;
 import appeng.api.networking.crafting.*;
 import appeng.api.networking.energy.IEnergyGrid;
@@ -39,7 +40,7 @@ import appeng.api.parts.IPartRenderHelper;
 import appeng.api.storage.IMEMonitor;
 import appeng.api.storage.IMEMonitorHandlerReceiver;
 import appeng.api.storage.IStorageChannel;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IAEStack;
 import appeng.api.storage.data.IItemList;
@@ -240,7 +241,7 @@ public class PartLevelEmitter extends PartUpgradeable
                 this.updateState();
 
                 // no more item stuff..
-                this.getProxy().getStorage().getInventory(StorageChannel.ITEMS).removeListener(this);
+                this.getProxy().getStorage().getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)).removeListener(this);
             } catch (final GridAccessException e) {
                 // :P
             }
@@ -250,18 +251,18 @@ public class PartLevelEmitter extends PartUpgradeable
 
         try {
             if (this.getInstalledUpgrades(Upgrades.FUZZY) > 0 || myStack == null) {
-                this.getProxy().getStorage().getInventory(StorageChannel.ITEMS).addListener(
+                this.getProxy().getStorage().getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)).addListener(
                     this, this.getProxy().getGrid()
                 );
             } else {
-                this.getProxy().getStorage().getInventory(StorageChannel.ITEMS).removeListener(this);
+                this.getProxy().getStorage().getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)).removeListener(this);
 
                 if (this.myWatcher != null) {
                     this.myWatcher.add(myStack);
                 }
             }
 
-            this.updateReportingValue(this.getProxy().getStorage().getInventory(StorageChannel.ITEMS));
+            this.updateReportingValue(this.getProxy().getStorage().getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)));
         } catch (final GridAccessException e) {
             // >.>
         }
@@ -310,7 +311,7 @@ public class PartLevelEmitter extends PartUpgradeable
         final BaseActionSource src,
         final IStorageChannel chan
     ) {
-        if (chan == StorageChannel.ITEMS
+        if (chan == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)
             && fullStack.equals(this.config.getAEStackInSlot(0))
             && this.getInstalledUpgrades(Upgrades.FUZZY) == 0) {
             this.lastReportedValue = fullStack.getStackSize();
@@ -351,7 +352,7 @@ public class PartLevelEmitter extends PartUpgradeable
     @Override
     public void onListUpdate() {
         try {
-            this.updateReportingValue(this.getProxy().getStorage().getInventory(StorageChannel.ITEMS));
+            this.updateReportingValue(this.getProxy().getStorage().getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)));
         } catch (final GridAccessException e) {
             // ;P
         }

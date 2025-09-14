@@ -21,9 +21,10 @@ package appeng.util.item;
 import java.io.*;
 import javax.annotation.Nonnull;
 
+import appeng.api.AEApi;
 import appeng.api.config.FuzzyMode;
 import appeng.api.storage.IStorageChannel;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IFluidStorageChannel;
 import appeng.api.storage.data.IAEFluidStack;
 import appeng.api.storage.data.IAEStack;
 import appeng.api.storage.data.IAETagCompound;
@@ -248,7 +249,7 @@ public final class AEFluidStack
 
     @Override
     public IStorageChannel<?> getStorageChannel() {
-        return StorageChannel.FLUIDS;
+        return AEApi.instance().storage().getStorageChannel(IFluidStorageChannel.class);
     }
 
     @Override

@@ -40,6 +40,7 @@ import appeng.api.parts.IPartCollisionHelper;
 import appeng.api.parts.IPartHost;
 import appeng.api.parts.IPartRenderHelper;
 import appeng.api.storage.*;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import appeng.api.util.IConfigManager;
@@ -223,7 +224,7 @@ public class PartStorageBus extends PartUpgradeable
         try {
             if (this.getProxy().isActive()) {
                 this.getProxy().getStorage().postAlterationOfStoredItems(
-                    StorageChannel.ITEMS, change, this.mySrc
+                    AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class), change, this.mySrc
                 );
             }
         } catch (final GridAccessException e) {
@@ -425,11 +426,11 @@ public class PartStorageBus extends PartUpgradeable
         if (target != null) {
             final IExternalStorageHandler esh
                 = AEApi.instance().registries().externalStorage().getHandler(
-                    target, this.getSide().getOpposite(), StorageChannel.ITEMS, this.mySrc
+                    target, this.getSide().getOpposite(), AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class), this.mySrc
                 );
             if (esh != null) {
                 final IMEInventory inv = esh.getInventory(
-                    target, this.getSide().getOpposite(), StorageChannel.ITEMS, this.mySrc
+                    target, this.getSide().getOpposite(), AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class), this.mySrc
                 );
 
                 if (inv instanceof MEMonitorIInventory) {
@@ -447,7 +448,7 @@ public class PartStorageBus extends PartUpgradeable
                 if (inv != null) {
                     this.checkInterfaceVsStorageBus(target, this.getSide().getOpposite());
 
-                    this.handler = new MEInventoryHandler(inv, StorageChannel.ITEMS);
+                    this.handler = new MEInventoryHandler(inv, AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class));
 
                     this.handler.setBaseAccess((AccessRestriction) this.getConfigManager()
                                                    .getSetting(Settings.ACCESS));
@@ -541,7 +542,7 @@ public class PartStorageBus extends PartUpgradeable
 
     @Override
     public List<IMEInventoryHandler> getCellArray(final IStorageChannel channel) {
-        if (channel == StorageChannel.ITEMS) {
+        if (channel == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)) {
             final IMEInventoryHandler out
                 = this.getProxy().isActive() ? this.getInternalHandler() : null;
             if (out != null) {

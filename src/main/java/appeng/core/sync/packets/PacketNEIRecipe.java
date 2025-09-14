@@ -23,6 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import appeng.api.AEApi;
 import appeng.api.config.Actionable;
 import appeng.api.config.FuzzyMode;
 import appeng.api.config.SecurityPermissions;
@@ -32,7 +33,7 @@ import appeng.api.networking.energy.IEnergyGrid;
 import appeng.api.networking.security.ISecurityGrid;
 import appeng.api.networking.storage.IStorageGrid;
 import appeng.api.storage.IMEMonitor;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import appeng.container.ContainerNull;
@@ -139,7 +140,7 @@ public class PacketNEIRecipe extends AppEngPacket {
 
                         if (is != null) {
                             final IMEMonitor<IAEItemStack> storage
-                                = inv.getInventory(StorageChannel.ITEMS);
+                                = inv.getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class));
                             final IItemList all = storage.getStorageList();
                             final IPartitionList<IAEItemStack> filter
                                 = ItemViewCell.createFilter(cct.getViewCells());

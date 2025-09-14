@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import appeng.api.AEApi;
 import appeng.api.config.AccessRestriction;
 import appeng.api.config.Actionable;
 import appeng.api.networking.IGrid;
@@ -23,7 +24,7 @@ import appeng.api.networking.storage.IStorageGrid;
 import appeng.api.storage.ICellProvider;
 import appeng.api.storage.IMEInventoryHandler;
 import appeng.api.storage.IStorageChannel;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 
@@ -106,7 +107,7 @@ public class RequestGridCache
             }
         }
         storageGrid.postAlterationOfStoredItems(
-            StorageChannel.ITEMS, requestable.keySet(), new BaseActionSource()
+            AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class), requestable.keySet(), new BaseActionSource()
         );
     }
 
@@ -163,7 +164,7 @@ public class RequestGridCache
 
     @Override
     public IStorageChannel getStorageChannel() {
-        return StorageChannel.ITEMS;
+        return AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class);
     }
 
     @Override
@@ -207,7 +208,7 @@ public class RequestGridCache
     public List<IMEInventoryHandler> getCellArray(IStorageChannel channel) {
         final List<IMEInventoryHandler> list = new ArrayList<>(1);
 
-        if (channel == StorageChannel.ITEMS) {
+        if (channel == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)) {
             list.add(this);
         }
 

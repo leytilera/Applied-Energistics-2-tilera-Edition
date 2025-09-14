@@ -34,7 +34,7 @@ import appeng.api.networking.ticking.TickRateModulation;
 import appeng.api.storage.IMEMonitor;
 import appeng.api.storage.IMEMonitorHandlerReceiver;
 import appeng.api.storage.IStorageChannel;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import appeng.util.InventoryAdaptor;
@@ -128,7 +128,7 @@ public class MEMonitorIInventory implements IMEMonitor<IAEItemStack> {
 
     @Override
     public IStorageChannel getStorageChannel() {
-        return StorageChannel.ITEMS;
+        return AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class);
     }
 
     public TickRateModulation onTick() {

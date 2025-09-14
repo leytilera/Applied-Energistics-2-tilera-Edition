@@ -26,7 +26,7 @@ import appeng.api.implementations.items.IUpgradeModule;
 import appeng.api.storage.ICellInventory;
 import appeng.api.storage.ICellInventoryHandler;
 import appeng.api.storage.IMEInventory;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import appeng.util.item.AEItemStack;
@@ -38,7 +38,7 @@ import net.minecraft.item.ItemStack;
 public class CellInventoryHandler
     extends MEInventoryHandler<IAEItemStack> implements ICellInventoryHandler {
     CellInventoryHandler(final IMEInventory<IAEItemStack> c) {
-        super(c, StorageChannel.ITEMS);
+        super(c, AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class));
 
         final ICellInventory ci = this.getCellInv();
 

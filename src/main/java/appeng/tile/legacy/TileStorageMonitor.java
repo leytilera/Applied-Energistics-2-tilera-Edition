@@ -3,12 +3,12 @@ package appeng.tile.legacy;
 import java.io.IOException;
 import java.util.EnumSet;
 
+import appeng.api.AEApi;
 import appeng.api.networking.GridFlags;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.networking.storage.IStackWatcher;
 import appeng.api.networking.storage.IStackWatcherHost;
 import appeng.api.storage.IStorageChannel;
-import appeng.api.storage.StorageChannel;
 import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IAEStack;
@@ -125,7 +125,7 @@ public class TileStorageMonitor extends TileLegacyDisplay implements IStackWatch
             try {
                 IAEItemStack meitem = this.getProxy()
                                           .getStorage()
-                                          .getInventory((IItemStorageChannel)(IStorageChannel)StorageChannel.ITEMS)
+                                          .getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class))
                                           .getStorageList()
                                           .findPrecise(this.myItem);
 

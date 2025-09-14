@@ -35,7 +35,7 @@ import appeng.api.networking.security.IActionHost;
 import appeng.api.networking.security.MachineSource;
 import appeng.api.networking.security.PlayerSource;
 import appeng.api.networking.storage.IStorageGrid;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import appeng.api.util.DimensionalCoord;
@@ -92,7 +92,7 @@ public class CraftingJob implements Runnable, ICraftingJob {
         final ICraftingGrid cc = grid.getCache(ICraftingGrid.class);
         final IStorageGrid sg = grid.getCache(IStorageGrid.class);
         this.original = new MECraftingInventory(
-            sg.getInventory(StorageChannel.ITEMS), actionSrc, false, false, false
+            sg.getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)), actionSrc, false, false, false
         );
 
         this.setTree(this.getCraftingTree(cc, what));

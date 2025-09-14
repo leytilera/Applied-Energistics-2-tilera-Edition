@@ -38,7 +38,7 @@ import appeng.api.networking.security.PlayerSource;
 import appeng.api.networking.storage.IStorageGrid;
 import appeng.api.storage.IMEInventory;
 import appeng.api.storage.ITerminalHost;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import appeng.container.AEBaseContainer;
@@ -200,7 +200,7 @@ public class ContainerCraftConfirm extends AEBaseContainer {
 
                         final IStorageGrid sg
                             = this.getGrid().getCache(IStorageGrid.class);
-                        final IMEInventory<IAEItemStack> items = sg.getInventory(StorageChannel.ITEMS);
+                        final IMEInventory<IAEItemStack> items = sg.getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class));
 
                         IAEItemStack m = null;
                         if (c != null && this.result.isSimulation()) {

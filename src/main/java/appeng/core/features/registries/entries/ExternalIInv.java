@@ -18,11 +18,12 @@
 
 package appeng.core.features.registries.entries;
 
+import appeng.api.AEApi;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.IExternalStorageHandler;
 import appeng.api.storage.IMEInventory;
 import appeng.api.storage.IStorageChannel;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.me.storage.MEMonitorIInventory;
 import appeng.util.InventoryAdaptor;
 import net.minecraft.inventory.IInventory;
@@ -37,7 +38,7 @@ public class ExternalIInv implements IExternalStorageHandler {
         final IStorageChannel channel,
         final BaseActionSource mySrc
     ) {
-        return channel == StorageChannel.ITEMS && te instanceof IInventory;
+        return channel == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class) && te instanceof IInventory;
     }
 
     @Override
@@ -49,7 +50,7 @@ public class ExternalIInv implements IExternalStorageHandler {
     ) {
         final InventoryAdaptor ad = InventoryAdaptor.getAdaptor(te, d);
 
-        if (channel == StorageChannel.ITEMS && ad != null) {
+        if (channel == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class) && ad != null) {
             return new MEMonitorIInventory(ad);
         }
 

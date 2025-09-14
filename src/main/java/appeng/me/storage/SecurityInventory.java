@@ -27,7 +27,7 @@ import appeng.api.networking.security.BaseActionSource;
 import appeng.api.networking.security.PlayerSource;
 import appeng.api.storage.IMEInventoryHandler;
 import appeng.api.storage.IStorageChannel;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import appeng.me.GridAccessException;
@@ -110,7 +110,7 @@ public class SecurityInventory implements IMEInventoryHandler<IAEItemStack> {
 
     @Override
     public IStorageChannel getStorageChannel() {
-        return StorageChannel.ITEMS;
+        return AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class);
     }
 
     @Override

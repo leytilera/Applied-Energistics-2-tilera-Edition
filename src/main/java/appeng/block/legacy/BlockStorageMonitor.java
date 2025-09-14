@@ -2,9 +2,10 @@ package appeng.block.legacy;
 
 import java.util.EnumSet;
 
+import appeng.api.AEApi;
 import appeng.api.networking.security.PlayerSource;
 import appeng.api.networking.storage.IStorageGrid;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.block.AEBaseBlock;
 import appeng.client.render.BaseBlockRender;
@@ -100,7 +101,7 @@ public class BlockStorageMonitor extends BlockLegacyDisplay {
 
                     IAEItemStack remaining = Api.INSTANCE.storage().poweredInsert(
                         tile.getProxy().getEnergy(),
-                        storage.getInventory(StorageChannel.ITEMS),
+                        storage.getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)),
                         AEItemStack.create(player.getHeldItem()),
                         new PlayerSource(player, tile)
                     );
@@ -130,7 +131,7 @@ public class BlockStorageMonitor extends BlockLegacyDisplay {
 
                         IAEItemStack remaining = Api.INSTANCE.storage().poweredInsert(
                             tile.getProxy().getEnergy(),
-                            storage.getInventory(StorageChannel.ITEMS),
+                            storage.getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)),
                             AEItemStack.create(it),
                             new PlayerSource(player, tile)
                         );
@@ -160,7 +161,7 @@ public class BlockStorageMonitor extends BlockLegacyDisplay {
 
                     IAEItemStack extracted = Api.INSTANCE.storage().poweredExtraction(
                         tile.getProxy().getEnergy(),
-                        storage.getInventory(StorageChannel.ITEMS),
+                        storage.getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)),
                         request,
                         new PlayerSource(player, tile)
                     );

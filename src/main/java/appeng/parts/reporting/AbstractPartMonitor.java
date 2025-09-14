@@ -20,6 +20,7 @@ package appeng.parts.reporting;
 
 import java.io.IOException;
 
+import appeng.api.AEApi;
 import appeng.api.implementations.parts.IPartStorageMonitor;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.networking.storage.IStackWatcher;
@@ -27,7 +28,7 @@ import appeng.api.networking.storage.IStackWatcherHost;
 import appeng.api.parts.IPartRenderHelper;
 import appeng.api.storage.IMEMonitor;
 import appeng.api.storage.IStorageChannel;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IAEStack;
 import appeng.api.storage.data.IItemList;
@@ -190,7 +191,7 @@ public abstract class AbstractPartMonitor
                     this.myWatcher.add(this.configuredItem);
                 }
 
-                this.updateReportingValue(this.getProxy().getStorage().getInventory(StorageChannel.ITEMS)
+                this.updateReportingValue(this.getProxy().getStorage().getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class))
                 );
             }
         } catch (final GridAccessException e) {

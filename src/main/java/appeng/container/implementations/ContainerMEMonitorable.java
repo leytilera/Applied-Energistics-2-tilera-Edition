@@ -38,7 +38,7 @@ import appeng.api.parts.IPart;
 import appeng.api.storage.IMEMonitor;
 import appeng.api.storage.IMEMonitorHandlerReceiver;
 import appeng.api.storage.ITerminalHost;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import appeng.api.util.IConfigManager;
@@ -107,7 +107,7 @@ public class ContainerMEMonitorable
         if (Platform.isServer()) {
             this.serverCM = monitorable.getConfigManager();
 
-            this.monitor = monitorable.getInventory(StorageChannel.ITEMS);
+            this.monitor = monitorable.getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class));
             if (this.monitor != null) {
                 this.monitor.addListener(this, null);
 
@@ -166,7 +166,7 @@ public class ContainerMEMonitorable
     @Override
     public void detectAndSendChanges() {
         if (Platform.isServer()) {
-            if (this.monitor != this.host.getInventory(StorageChannel.ITEMS)) {
+            if (this.monitor != this.host.getInventory(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class))) {
                 this.setValidContainer(false);
             }
 

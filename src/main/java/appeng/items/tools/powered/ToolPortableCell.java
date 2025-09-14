@@ -31,7 +31,7 @@ import appeng.api.implementations.items.IStorageCell;
 import appeng.api.storage.ICellInventory;
 import appeng.api.storage.ICellInventoryHandler;
 import appeng.api.storage.IMEInventory;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.core.AEConfig;
 import appeng.core.features.AEFeature;
@@ -87,7 +87,7 @@ public class ToolPortableCell
 
         final IMEInventory<IAEItemStack> cdi
             = AEApi.instance().registries().cell().getCellInventory(
-                stack, null, StorageChannel.ITEMS
+                stack, null, AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)
             );
 
         if (cdi instanceof CellInventoryHandler) {

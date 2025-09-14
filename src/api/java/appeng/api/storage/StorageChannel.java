@@ -61,12 +61,4 @@ public enum StorageChannel implements IStorageChannel {
         return type;
     }
 
-    public static StorageChannel get(IStorageChannel channel) {
-        if (channel instanceof StorageChannel) {
-            return (StorageChannel) channel;
-        } else {
-            return null;
-        }
-    }
-
 }

@@ -18,11 +18,12 @@
 
 package appeng.integration.modules.helpers;
 
+import appeng.api.AEApi;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.IExternalStorageHandler;
 import appeng.api.storage.IMEInventory;
 import appeng.api.storage.IStorageChannel;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.integration.modules.DSU;
 import appeng.me.storage.MEMonitorIInventory;
 import appeng.util.inv.IMEAdaptor;
@@ -37,7 +38,7 @@ public class MFRDSUHandler implements IExternalStorageHandler {
         final IStorageChannel chan,
         final BaseActionSource mySrc
     ) {
-        return chan == StorageChannel.ITEMS && DSU.instance.isDSU(te);
+        return chan == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class) && DSU.instance.isDSU(te);
     }
 
     @Override
@@ -47,7 +48,7 @@ public class MFRDSUHandler implements IExternalStorageHandler {
         final IStorageChannel chan,
         final BaseActionSource src
     ) {
-        if (chan == StorageChannel.ITEMS) {
+        if (chan == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)) {
             return new MEMonitorIInventory(new IMEAdaptor(DSU.instance.getDSU(te), src));
         }
 

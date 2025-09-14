@@ -27,7 +27,7 @@ import appeng.api.networking.storage.IBaseMonitor;
 import appeng.api.storage.IMEInventory;
 import appeng.api.storage.IMEMonitor;
 import appeng.api.storage.IMEMonitorHandlerReceiver;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.data.IAEStack;
 import appeng.api.storage.data.IItemList;
 import appeng.util.Platform;
@@ -40,7 +40,7 @@ public class MEMonitorPassThrough<T extends IAEStack<T>>
     private BaseActionSource changeSource;
     private IMEMonitor<T> monitor;
 
-    public MEMonitorPassThrough(final IMEInventory<T> i, final StorageChannel channel) {
+    public MEMonitorPassThrough(final IMEInventory<T> i, final IStorageChannel channel) {
         super(i, channel);
         if (i instanceof IMEMonitor) {
             this.monitor = (IMEMonitor<T>) i;

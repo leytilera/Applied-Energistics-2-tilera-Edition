@@ -23,9 +23,10 @@ import java.security.InvalidParameterException;
 import java.util.List;
 import javax.annotation.Nullable;
 
+import appeng.api.AEApi;
 import appeng.api.config.FuzzyMode;
 import appeng.api.storage.IStorageChannel;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IAETagCompound;
 import appeng.util.Platform;
@@ -379,7 +380,7 @@ public final class AEItemStack
 
     @Override
     public IStorageChannel getStorageChannel() {
-        return StorageChannel.ITEMS;
+        return AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class);
     }
 
     @Override

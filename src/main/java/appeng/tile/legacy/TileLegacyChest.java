@@ -2,7 +2,8 @@ package appeng.tile.legacy;
 
 import java.util.EnumSet;
 
-import appeng.api.storage.StorageChannel;
+import appeng.api.AEApi;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.tile.storage.TileChest;
 import net.minecraftforge.common.util.ForgeDirection;
 
@@ -32,7 +33,7 @@ public class TileLegacyChest extends TileChest {
     public int[] getAccessibleSlotsBySide(ForgeDirection whichSide) {
         if (this.isPowered()) {
             try {
-                if (this.getHandler(StorageChannel.ITEMS) != null) {
+                if (this.getHandler(AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)) != null) {
                     return SIDES;
                 }
             } catch (final ChestNoHandler e) {

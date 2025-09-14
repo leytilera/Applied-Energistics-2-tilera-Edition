@@ -219,10 +219,6 @@ public class GridStorageCache implements IStorageGrid {
         }
     }
 
-    IMEInventoryHandler<IAEItemStack> getItemInventoryHandler() {
-        return getInventoryHandler(StorageChannel.ITEMS);
-    }
-
     <T extends IAEStack<T>> IMEInventoryHandler<T> getInventoryHandler(IStorageChannel<T> channel) {
         if (!this.myNetworks.containsKey(channel)) {
             this.buildNetworkStorage(channel);
@@ -240,10 +236,6 @@ public class GridStorageCache implements IStorageGrid {
                 myNetwork.addNewStorage(h);
             }
         }
-    }
-
-    IMEInventoryHandler<IAEFluidStack> getFluidInventoryHandler() {
-        return getInventoryHandler(StorageChannel.FLUIDS);
     }
 
     @Override

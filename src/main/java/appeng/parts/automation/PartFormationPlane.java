@@ -33,7 +33,7 @@ import appeng.api.storage.ICellContainer;
 import appeng.api.storage.IMEInventory;
 import appeng.api.storage.IMEInventoryHandler;
 import appeng.api.storage.IStorageChannel;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import appeng.api.util.IConfigManager;
@@ -72,7 +72,7 @@ import net.minecraftforge.event.ForgeEventFactory;
 public class PartFormationPlane extends PartUpgradeable
     implements ICellContainer, IPriorityHost, IMEInventory<IAEItemStack> {
     private final MEInventoryHandler myHandler
-        = new MEInventoryHandler(this, StorageChannel.ITEMS);
+        = new MEInventoryHandler(this, AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class));
     private final AppEngInternalAEInventory Config
         = new AppEngInternalAEInventory(this, 63);
     private EntityPlayer owner = null;
@@ -429,7 +429,7 @@ public class PartFormationPlane extends PartUpgradeable
 
     @Override
     public List<IMEInventoryHandler> getCellArray(final IStorageChannel channel) {
-        if (this.getProxy().isActive() && channel == StorageChannel.ITEMS) {
+        if (this.getProxy().isActive() && channel == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)) {
             final List<IMEInventoryHandler> Handler
                 = new ArrayList<IMEInventoryHandler>(1);
             Handler.add(this.myHandler);
@@ -692,7 +692,7 @@ public class PartFormationPlane extends PartUpgradeable
 
     @Override
     public IStorageChannel getStorageChannel() {
-        return StorageChannel.ITEMS;
+        return AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class);
     }
 
     @Override

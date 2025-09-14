@@ -18,14 +18,14 @@
 
 package appeng.items.contents;
 
+import appeng.api.AEApi;
 import appeng.api.config.*;
 import appeng.api.implementations.guiobjects.IPortableCell;
 import appeng.api.implementations.items.IAEItemPowerStorage;
 import appeng.api.storage.IMEMonitor;
 import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.MEMonitorHandler;
-import appeng.api.storage.StorageChannel;
-import appeng.api.storage.data.IAEFluidStack;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IAEStack;
 import appeng.api.util.IConfigManager;
@@ -77,7 +77,7 @@ public class PortableCellViewer
 
     @Override
     public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
-        if (channel == StorageChannel.ITEMS) {
+        if (channel == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)) {
             return (IMEMonitor<T>) this;
         }
         return null;

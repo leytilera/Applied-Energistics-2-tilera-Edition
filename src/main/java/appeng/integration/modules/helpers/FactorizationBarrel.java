@@ -18,11 +18,12 @@
 
 package appeng.integration.modules.helpers;
 
+import appeng.api.AEApi;
 import appeng.api.config.Actionable;
 import appeng.api.networking.security.BaseActionSource;
 import appeng.api.storage.IMEInventory;
 import appeng.api.storage.IStorageChannel;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import appeng.integration.abstraction.IFZ;
@@ -147,6 +148,6 @@ public class FactorizationBarrel implements IMEInventory<IAEItemStack> {
 
     @Override
     public IStorageChannel getStorageChannel() {
-        return StorageChannel.ITEMS;
+        return AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class);
     }
 }

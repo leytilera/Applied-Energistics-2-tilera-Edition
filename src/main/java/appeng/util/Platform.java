@@ -23,6 +23,8 @@ import java.lang.reflect.Method;
 import java.security.InvalidParameterException;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.Map.Entry;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
@@ -43,7 +45,8 @@ import appeng.api.networking.storage.IStorageGrid;
 import appeng.api.storage.IMEInventory;
 import appeng.api.storage.IMEMonitor;
 import appeng.api.storage.IMEMonitorHandlerReceiver;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.IStorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.*;
 import appeng.api.util.AEColor;
 import appeng.api.util.DimensionalCoord;
@@ -1378,56 +1381,38 @@ public class Platform {
         final ItemStack added,
         final BaseActionSource src
     ) {
-        final IItemList<IAEItemStack> itemChanges
-            = AEApi.instance().storage().createItemList();
-        final IItemList<IAEFluidStack> fluidChanges
-            = AEApi.instance().storage().createFluidList();
+        final Map<IStorageChannel, IItemList> changes = new HashMap<>();
+        AEApi.instance().storage().storageChannels().forEach((c) -> changes.put(c, c.createList()));
 
         if (removed != null) {
-            final IMEInventory<IAEItemStack> myItems
+            for (Entry<IStorageChannel, IItemList> e : changes.entrySet()) {
+                final IMEInventory myItems
                 = AEApi.instance().registries().cell().getCellInventory(
-                    removed, null, StorageChannel.ITEMS
+                    removed, null, e.getKey()
                 );
 
-            if (myItems != null) {
-                for (final IAEItemStack is : myItems.getAvailableItems(itemChanges)) {
-                    is.setStackSize(-is.getStackSize());
-                }
-            }
-
-            final IMEInventory<IAEFluidStack> myFluids
-                = AEApi.instance().registries().cell().getCellInventory(
-                    removed, null, StorageChannel.FLUIDS
-                );
-
-            if (myFluids != null) {
-                for (final IAEFluidStack is : myFluids.getAvailableItems(fluidChanges)) {
-                    is.setStackSize(-is.getStackSize());
+                if (myItems != null) {
+                    for (final IAEStack is : (IItemList<? extends IAEStack>)myItems.getAvailableItems(e.getValue())) {
+                        is.setStackSize(-is.getStackSize());
+                    }
                 }
             }
         }
 
         if (added != null) {
-            final IMEInventory<IAEItemStack> myItems
+            for (Entry<IStorageChannel, IItemList> e : changes.entrySet()) {
+                final IMEInventory<IAEItemStack> myItems
                 = AEApi.instance().registries().cell().getCellInventory(
-                    added, null, StorageChannel.ITEMS
+                    added, null, e.getKey()
                 );
 
-            if (myItems != null) {
-                myItems.getAvailableItems(itemChanges);
-            }
-
-            final IMEInventory<IAEFluidStack> myFluids
-                = AEApi.instance().registries().cell().getCellInventory(
-                    added, null, StorageChannel.FLUIDS
-                );
-
-            if (myFluids != null) {
-                myFluids.getAvailableItems(fluidChanges);
+                if (myItems != null) {
+                    myItems.getAvailableItems(e.getValue());
+                }
             }
         }
-
-        gs.postAlterationOfStoredItems(StorageChannel.ITEMS, itemChanges, src);
+        IItemStorageChannel items = AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class);
+        gs.postAlterationOfStoredItems(items, changes.get(items), src);
     }
 
     public static <T extends IAEStack<T>> void postListChanges(

@@ -26,7 +26,7 @@ import appeng.api.config.FuzzyMode;
 import appeng.api.config.Settings;
 import appeng.api.storage.ICellWorkbenchItem;
 import appeng.api.storage.IMEInventory;
-import appeng.api.storage.StorageChannel;
+import appeng.api.storage.channels.IItemStorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import appeng.container.guisync.GuiSync;
@@ -231,7 +231,7 @@ public class ContainerCellWorkbench extends ContainerUpgradeable {
             = AEApi.instance().registries().cell().getCellInventory(
                 this.getUpgradeable().getInventoryByName("cell").getStackInSlot(0),
                 null,
-                StorageChannel.ITEMS
+                AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)
             );
 
         Iterator<IAEItemStack> i = new NullIterator<IAEItemStack>();
