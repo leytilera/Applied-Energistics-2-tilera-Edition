@@ -10,7 +10,7 @@ import appeng.transformer.asm.InterfaceMethodRepairer;
 public class CellProviderRepairer extends InterfaceMethodRepairer {
 
     static final String methGCA = "getCellArray";
-    static final String descGCANew = "(Lappeng/api/storage/IStorageChannel;)Ljava/util/List;";
+    static final String descGCANew = "(Lappeng/api/storage/IStorageChannel;I)Ljava/util/List;";
     static final String descGCAOld = "(Lappeng/api/storage/StorageChannel;)Ljava/util/List;";
 
     boolean hasGCA = false;
@@ -41,10 +41,10 @@ public class CellProviderRepairer extends InterfaceMethodRepairer {
             // StorageChannel c = (StorageChannel) channel;
             mv.visitVarInsn(Opcodes.ALOAD, 1);
             mv.visitTypeInsn(Opcodes.CHECKCAST, "appeng/api/storage/StorageChannel");
-            mv.visitVarInsn(Opcodes.ASTORE, 2);
+            mv.visitVarInsn(Opcodes.ASTORE, 3);
             // return this.getCellArray(c);
             mv.visitVarInsn(Opcodes.ALOAD, 0);
-            mv.visitVarInsn(Opcodes.ALOAD, 2);
+            mv.visitVarInsn(Opcodes.ALOAD, 3);
             invokeMethod(mv, thisClass, methGCA, descGCAOld);
             // } else 
             mv.visitJumpInsn(Opcodes.GOTO, labelEnd);
@@ -66,6 +66,7 @@ public class CellProviderRepairer extends InterfaceMethodRepairer {
             mv.visitCode();
             mv.visitVarInsn(Opcodes.ALOAD, 0);
             mv.visitVarInsn(Opcodes.ALOAD, 1);
+            mv.visitInsn(Opcodes.ICONST_0);
             mv.visitMethodInsn(Opcodes.INVOKEINTERFACE, thisClass, methGCA, descGCANew, true);
             mv.visitInsn(Opcodes.ARETURN);
             mv.visitMaxs(0, 0);

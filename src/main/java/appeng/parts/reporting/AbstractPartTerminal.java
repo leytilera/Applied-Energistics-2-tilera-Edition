@@ -121,9 +121,9 @@ public abstract class AbstractPartTerminal extends AbstractPartDisplay
     }
     
     @Override
-    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
+    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel, int poolId) {
         try {
-            return this.getProxy().getStorage().getInventory(channel);
+            return this.getProxy().getStorage().getInventory(channel, poolId);
         } catch (final GridAccessException e) {
             // err nope?
         }

@@ -1381,6 +1381,16 @@ public class Platform {
         final ItemStack added,
         final BaseActionSource src
     ) {
+        postChanges(gs, removed, added, src, 0);
+    }
+
+    public static void postChanges(
+        final IStorageGrid gs,
+        final ItemStack removed,
+        final ItemStack added,
+        final BaseActionSource src,
+        final int poolId
+    ) {
         final Map<IStorageChannel, IItemList> changes = new HashMap<>();
         AEApi.instance().storage().storageChannels().forEach((c) -> changes.put(c, c.createList()));
 
@@ -1412,7 +1422,7 @@ public class Platform {
             }
         }
         IItemStorageChannel items = AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class);
-        gs.postAlterationOfStoredItems(items, changes.get(items), src);
+        gs.postAlterationOfStoredItems(items, changes.get(items), src, poolId);
     }
 
     public static <T extends IAEStack<T>> void postListChanges(

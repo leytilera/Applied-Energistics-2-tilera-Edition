@@ -428,7 +428,7 @@ public class PartFormationPlane extends PartUpgradeable
     }
 
     @Override
-    public List<IMEInventoryHandler> getCellArray(final IStorageChannel channel) {
+    public List<IMEInventoryHandler> getCellArray(final IStorageChannel channel, int poolId) {
         if (this.getProxy().isActive() && channel == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)) {
             final List<IMEInventoryHandler> Handler
                 = new ArrayList<IMEInventoryHandler>(1);

@@ -383,7 +383,7 @@ public class TileChest extends AENetworkPowerTile
     }
 
     @Override
-    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
+    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel, int poolId) {
         if (this.cells.containsKey(channel)) {
             return this.cells.get(channel);
         }
@@ -507,7 +507,7 @@ public class TileChest extends AENetworkPowerTile
     }
 
     @Override
-    public List<IMEInventoryHandler> getCellArray(final IStorageChannel channel) {
+    public List<IMEInventoryHandler> getCellArray(final IStorageChannel channel, int poolId) {
         if (this.getProxy().isActive()) {
             try {
                 return Collections.singletonList(this.getHandler(channel));
@@ -719,7 +719,7 @@ public class TileChest extends AENetworkPowerTile
                         TileChest.this.getProxy()
                             .getStorage()
                             .postAlterationOfStoredItems(
-                                this.chan, change, TileChest.this.mySrc
+                                this.chan, change, TileChest.this.mySrc, 0
                             );
                     }
                 } catch (final GridAccessException e) {

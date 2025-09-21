@@ -224,7 +224,7 @@ public class PartStorageBus extends PartUpgradeable
         try {
             if (this.getProxy().isActive()) {
                 this.getProxy().getStorage().postAlterationOfStoredItems(
-                    AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class), change, this.mySrc
+                    AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class), change, this.mySrc, 0
                 );
             }
         } catch (final GridAccessException e) {
@@ -541,7 +541,7 @@ public class PartStorageBus extends PartUpgradeable
     }
 
     @Override
-    public List<IMEInventoryHandler> getCellArray(final IStorageChannel channel) {
+    public List<IMEInventoryHandler> getCellArray(final IStorageChannel channel, int poolId) {
         if (channel == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)) {
             final IMEInventoryHandler out
                 = this.getProxy().isActive() ? this.getInternalHandler() : null;

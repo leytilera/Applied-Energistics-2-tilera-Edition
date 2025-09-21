@@ -309,7 +309,8 @@ public class PartLevelEmitter extends PartUpgradeable
         final IAEStack fullStack,
         final IAEStack diffStack,
         final BaseActionSource src,
-        final IStorageChannel chan
+        final IStorageChannel chan,
+        final int poolId
     ) {
         if (chan == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)
             && fullStack.equals(this.config.getAEStackInSlot(0))

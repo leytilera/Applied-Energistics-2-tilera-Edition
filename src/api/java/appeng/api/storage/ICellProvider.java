@@ -40,7 +40,7 @@ public interface ICellProvider {
      *
      * @return a valid list of handlers, NEVER NULL
      */
-    List<IMEInventoryHandler> getCellArray(IStorageChannel channel);
+    List<IMEInventoryHandler> getCellArray(IStorageChannel channel, int poolId);
 
     /**
      * the storage's priority.

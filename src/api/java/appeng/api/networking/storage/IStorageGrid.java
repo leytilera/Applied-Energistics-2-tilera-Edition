@@ -46,7 +46,7 @@ public interface IStorageGrid extends IGridCache, IStorageMonitorable {
      * @param input injected items
      */
     void postAlterationOfStoredItems(
-        IStorageChannel chan, Iterable<? extends IAEStack> input, BaseActionSource src
+        IStorageChannel chan, Iterable<? extends IAEStack> input, BaseActionSource src, int poolId
     );
 
     /**

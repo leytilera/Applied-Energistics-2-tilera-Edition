@@ -52,6 +52,7 @@ public interface IStackWatcherHost {
         IAEStack fullStack,
         IAEStack diffStack,
         BaseActionSource src,
-        IStorageChannel chan
+        IStorageChannel chan,
+        int poolId
     );
 }

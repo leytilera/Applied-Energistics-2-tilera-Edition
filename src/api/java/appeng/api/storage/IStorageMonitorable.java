@@ -36,6 +36,14 @@ public interface IStorageMonitorable {
     /**
      * Access the inventory of a specific channel for the monitorable storage.
      */
-    <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel);
+    <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel, int poolId);
+
+    default <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
+        return getInventory(channel, this.getPreferredPoolId());
+    }
+
+    default int getPreferredPoolId() {
+        return 0;
+    }
 
 }

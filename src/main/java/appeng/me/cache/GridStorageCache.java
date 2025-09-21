@@ -144,7 +144,7 @@ public class GridStorageCache implements IStorageGrid {
 
             for (IStorageChannel c : AEApi.instance().storage().storageChannels()) {
                 for (final IMEInventoryHandler h :
-                    cc.getCellArray(c)) {
+                    cc.getCellArray(c, 0)) {
                     tracker.postChanges(c, 1, h, actionSrc);
                 }
             }
@@ -167,7 +167,7 @@ public class GridStorageCache implements IStorageGrid {
 
             for (IStorageChannel c : AEApi.instance().storage().storageChannels()) {
                 for (final IMEInventoryHandler h :
-                    cc.getCellArray(c)) {
+                    cc.getCellArray(c, 0)) {
                     tracker.postChanges(c, -1, h, actionSrc);
                 }
             }
@@ -232,7 +232,7 @@ public class GridStorageCache implements IStorageGrid {
         myNetworks.put(chan, myNetwork);
         for (final ICellProvider cc : this.activeCellProviders) {
             for (final IMEInventoryHandler<IAEFluidStack> h :
-                cc.getCellArray(chan)) {
+                cc.getCellArray(chan, 0)) {
                 myNetwork.addNewStorage(h);
             }
         }
@@ -242,7 +242,8 @@ public class GridStorageCache implements IStorageGrid {
     public void postAlterationOfStoredItems(
         final IStorageChannel chan,
         final Iterable<? extends IAEStack> input,
-        final BaseActionSource src
+        final BaseActionSource src,
+        final int poolId
     ) {
         if (this.monitors.containsKey(chan)) {
             this.monitors.get(chan).postChange(true, (Iterable<IAEItemStack>) input, src);
@@ -262,7 +263,7 @@ public class GridStorageCache implements IStorageGrid {
     }
 
     @Override
-    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
+    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel, int poolId) {
         return this.monitors.get(channel);
     }
 

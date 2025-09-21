@@ -148,7 +148,8 @@ public class TileStorageMonitor extends TileLegacyDisplay implements IStackWatch
         IAEStack fullStack,
         IAEStack diffStack,
         BaseActionSource src,
-        IStorageChannel chan
+        IStorageChannel chan,
+        int poolId
     ) {
         if (this.myItem == null)
             return;

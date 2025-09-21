@@ -109,11 +109,11 @@ public class WirelessTerminalGuiObject
     }
 
     @Override
-    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
+    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel, int poolId) {
         if (this.sg == null) {
             return null;
         }
-        return this.sg.getInventory(channel);
+        return this.sg.getInventory(channel, poolId);
     }
 
     @Override

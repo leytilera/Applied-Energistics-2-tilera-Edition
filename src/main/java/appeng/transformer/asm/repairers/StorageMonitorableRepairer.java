@@ -14,7 +14,7 @@ public class StorageMonitorableRepairer extends InterfaceMethodRepairer {
     static final String methGFI = "getFluidInventory";
     static final String descGFI = "()Lappeng/api/storage/IMEMonitor;";
     static final String methGI = "getInventory";
-    static final String descGI = "(Lappeng/api/storage/IStorageChannel;)Lappeng/api/storage/IMEMonitor;";
+    static final String descGI = "(Lappeng/api/storage/IStorageChannel;I)Lappeng/api/storage/IMEMonitor;";
 
     boolean hasGI = false;
 
@@ -69,6 +69,7 @@ public class StorageMonitorableRepairer extends InterfaceMethodRepairer {
                 mv.visitCode();
                 mv.visitVarInsn(Opcodes.ALOAD, 0);
                 mv.visitFieldInsn(Opcodes.GETSTATIC, "appeng/api/storage/StorageChannel", "ITEMS", "Lappeng/api/storage/StorageChannel;");
+                mv.visitInsn(Opcodes.ICONST_0);
                 mv.visitMethodInsn(Opcodes.INVOKEINTERFACE, thisClass, methGI, descGI, true);
                 mv.visitInsn(Opcodes.ARETURN);
                 mv.visitMaxs(0, 0);
@@ -79,6 +80,7 @@ public class StorageMonitorableRepairer extends InterfaceMethodRepairer {
                 mv.visitCode();
                 mv.visitVarInsn(Opcodes.ALOAD, 0);
                 mv.visitFieldInsn(Opcodes.GETSTATIC, "appeng/api/storage/StorageChannel", "FLUIDS", "Lappeng/api/storage/StorageChannel;");
+                mv.visitInsn(Opcodes.ICONST_0);
                 mv.visitMethodInsn(Opcodes.INVOKEINTERFACE, thisClass, methGI, descGI, true);
                 mv.visitInsn(Opcodes.ARETURN);
                 mv.visitMaxs(0, 0);

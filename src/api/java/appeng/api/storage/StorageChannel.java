@@ -23,11 +23,16 @@
 
 package appeng.api.storage;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import appeng.api.AEApi;
 import appeng.api.storage.data.IAEFluidStack;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IAEStack;
 import appeng.api.storage.data.IItemList;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 
 @Deprecated
 public enum StorageChannel implements IStorageChannel {
@@ -59,6 +64,31 @@ public enum StorageChannel implements IStorageChannel {
     @Override
     public Class getType() {
         return type;
+    }
+
+    @Override
+    public IAEStack createStack(Object input) {
+        if (this == ITEMS && input instanceof ItemStack) {
+            try {
+                Class<?> itemStack = Class.forName("appeng.util.item.AEItemStack");
+                Method create = itemStack.getDeclaredMethod("create", ItemStack.class);
+                return (IAEStack) create.invoke(null, (ItemStack) input);
+            } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        } else if (this == FLUIDS && input instanceof FluidStack) {
+            try {
+                Class<?> itemStack = Class.forName("appeng.util.item.AEFluidStack");
+                Method create = itemStack.getDeclaredMethod("create", Object.class);
+                return (IAEStack) create.invoke(null, input);
+            } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        } else if ( input instanceof IAEStack) {
+            return ((IAEStack)input).copy();
+        } else {
+            return null;
+        }
     }
 
 }

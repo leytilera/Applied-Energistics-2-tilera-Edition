@@ -367,7 +367,8 @@ public abstract class AbstractPartMonitor
         final IAEStack fullStack,
         final IAEStack diffStack,
         final BaseActionSource src,
-        final IStorageChannel chan
+        final IStorageChannel chan,
+        final int poolId
     ) {
         if (this.configuredItem != null) {
             if (fullStack == null) {

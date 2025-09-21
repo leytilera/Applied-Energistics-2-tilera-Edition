@@ -699,7 +699,7 @@ public class DualityInterface implements IGridTickable, IStorageMonitorable,
     }
 
     @Override
-    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
+    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel, int poolId) {
         if (this.hasConfig() && channel == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)) {
             return (IMEMonitor<T>) new InterfaceInventory(this);
         } else if (this.hasConfig) {
@@ -770,7 +770,7 @@ public class DualityInterface implements IGridTickable, IStorageMonitorable,
 
         return new IStorageMonitorable() {
             @Override
-            public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
+            public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel, int poolId) {
                 if (channel == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)) {
                     return (IMEMonitor<T>) new InterfaceInventory(di);
                 }

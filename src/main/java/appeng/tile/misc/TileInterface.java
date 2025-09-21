@@ -187,8 +187,8 @@ public class TileInterface extends AENetworkInvTile
     }
 
     @Override
-    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
-        return this.duality.getInventory(channel);
+    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel, int poolId) {
+        return this.duality.getInventory(channel, poolId);
     }
 
     @Override

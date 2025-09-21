@@ -107,7 +107,7 @@ public class RequestGridCache
             }
         }
         storageGrid.postAlterationOfStoredItems(
-            AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class), requestable.keySet(), new BaseActionSource()
+            AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class), requestable.keySet(), new BaseActionSource(), 0
         );
     }
 
@@ -205,7 +205,7 @@ public class RequestGridCache
     }
 
     @Override
-    public List<IMEInventoryHandler> getCellArray(IStorageChannel channel) {
+    public List<IMEInventoryHandler> getCellArray(IStorageChannel channel, int poolId) {
         final List<IMEInventoryHandler> list = new ArrayList<>(1);
 
         if (channel == AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class)) {

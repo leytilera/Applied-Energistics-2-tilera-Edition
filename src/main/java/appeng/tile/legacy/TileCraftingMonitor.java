@@ -6,8 +6,6 @@ import appeng.api.networking.GridFlags;
 import appeng.api.storage.IMEMonitor;
 import appeng.api.storage.IStorageChannel;
 import appeng.api.storage.ITerminalHost;
-import appeng.api.storage.data.IAEFluidStack;
-import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IAEStack;
 import appeng.api.util.IConfigManager;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -20,7 +18,7 @@ public class TileCraftingMonitor extends TileLegacyDisplay implements ITerminalH
     }
 
     @Override
-    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel) {
+    public <T extends IAEStack<T>> IMEMonitor<T> getInventory(IStorageChannel<T> channel, int poolId) {
         return null;
     }
 

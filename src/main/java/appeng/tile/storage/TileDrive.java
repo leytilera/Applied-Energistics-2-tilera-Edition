@@ -296,7 +296,7 @@ public class TileDrive extends AENetworkInvTile implements IChestOrDrive, IPrior
     }
 
     @Override
-    public List<IMEInventoryHandler> getCellArray(final IStorageChannel channel) {
+    public List<IMEInventoryHandler> getCellArray(final IStorageChannel channel, int poolId) {
         if (this.getProxy().isActive()) {
             this.updateState();
             return (List) cells.get(channel);
