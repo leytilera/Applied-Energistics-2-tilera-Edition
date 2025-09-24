@@ -369,16 +369,6 @@ public final class AEItemStack
     }
 
     @Override
-    public boolean isItem() {
-        return true;
-    }
-
-    @Override
-    public boolean isFluid() {
-        return false;
-    }
-
-    @Override
     public IStorageChannel getStorageChannel() {
         return AEApi.instance().storage().getStorageChannel(IItemStorageChannel.class);
     }
