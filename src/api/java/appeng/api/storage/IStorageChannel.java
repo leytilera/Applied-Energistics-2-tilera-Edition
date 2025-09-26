@@ -1,11 +1,15 @@
 package appeng.api.storage;
 
+import java.io.IOException;
+
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import appeng.api.storage.data.IAEStack;
 import appeng.api.storage.data.IItemList;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 
 public interface IStorageChannel<T extends IAEStack<T>> {
@@ -36,6 +40,24 @@ public interface IStorageChannel<T extends IAEStack<T>> {
 	 * @return The converted stack or null
 	 */
 	@Nullable
-	T createStack( @Nonnull Object input );
+	T createStack(@Nonnull Object input);
+
+	/**
+	 * 
+	 * @param input
+	 * @return
+	 * @throws IOException
+	 */
+	@Nullable
+	T readFromPacket(@Nonnull ByteBuf input) throws IOException;
+
+	/**
+	 * create from nbt data
+	 * 
+	 * @param nbt
+	 * @return
+	 */
+	@Nullable
+	T createFromNBT(@Nonnull NBTTagCompound nbt);
     
 }

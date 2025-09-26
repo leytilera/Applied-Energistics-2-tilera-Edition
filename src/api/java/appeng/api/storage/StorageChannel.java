@@ -23,6 +23,7 @@
 
 package appeng.api.storage;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -31,7 +32,9 @@ import appeng.api.storage.data.IAEFluidStack;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IAEStack;
 import appeng.api.storage.data.IItemList;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fluids.FluidStack;
 
 @Deprecated
@@ -88,6 +91,36 @@ public enum StorageChannel implements IStorageChannel {
             return ((IAEStack)input).copy();
         } else {
             return null;
+        }
+    }
+
+    @Override
+    public IAEStack readFromPacket(ByteBuf input) throws IOException {
+        if (this == ITEMS) {
+            return AEApi.instance().storage().readItemFromPacket(input);
+        } else {
+            return AEApi.instance().storage().readFluidFromPacket(input);
+        }
+    }
+
+    @Override
+    public IAEStack createFromNBT(NBTTagCompound nbt) {
+        if (this == ITEMS) {
+            try {
+                Class<?> itemStack = Class.forName("appeng.util.item.AEItemStack");
+                Method create = itemStack.getDeclaredMethod("loadItemStackFromNBT", NBTTagCompound.class);
+                return (IAEStack) create.invoke(null, nbt);
+            } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            try {
+                Class<?> itemStack = Class.forName("appeng.util.item.AEFluidStack");
+                Method create = itemStack.getDeclaredMethod("loadFluidStackFromNBT", NBTTagCompound.class);
+                return (IAEStack) create.invoke(null, nbt);
+            } catch (ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
